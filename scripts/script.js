@@ -108,7 +108,7 @@ function main() {
 
   document.getElementById('solve').addEventListener('click', async () => {
     await fetch_wordlist(document.getElementById('language').value);
-    state.correct_answer = document.getElementById('solution').value;
+    state.correct_answer = document.getElementById('solution').value?.toLowerCase();
     const solutions = find_solutions();
     show_solutions(solutions)
   });
