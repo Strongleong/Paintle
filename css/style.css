@@ -1,0 +1,142 @@
+/* Reset */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+/* Vars */
+
+:root {
+  --color-background: #121213;
+  --color-border: #3a3a3c;
+  --color-text: #f8f8f8;
+
+  --color-cell-correct: #538d4e;
+  --color-cell-present: #b59f3b;
+  --color-cell-absent: #3a3a3c;
+  --color-cell-nores: #ee4400;
+
+  --color-cell-border: var(--color-border);
+  --color-pallete-active: #0ff000;
+}
+
+/* Style start */
+
+/* Utils */
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+/* Blocks */
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+header {
+  width: 100%;
+  height: 65px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 25px;
+}
+
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+
+.block {
+  margin-bottom: 25px;
+}
+
+#solution {
+  text-align: center;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+.cell {
+  width: 62px;
+  height: 62px;
+  border: 2px solid var(--color-cell-border);
+  background: var(--color-cell-absent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: default;
+  transition: 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) transform;
+  /* transform: rotateX(180deg); */
+}
+
+.correct {
+  background: var(--color-cell-correct);
+}
+
+.present {
+  background: var(--color-cell-present);
+}
+
+.absent {
+  background: var(--color-cell-absent);
+}
+
+.active {
+  border-color: var(--color-pallete-active);
+}
+
+.noresult {
+  border-color: var(--color-cell-nores);
+}

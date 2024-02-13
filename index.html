@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Paintle</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h1>Paintle</h1>
+  </header>
+
+  <div class="content flex flex-col">
+    <div class="block flex flex-col">
+      <h3>Enter todays wordle solution</h3>
+      <input id="solution" type="text" placeholder="pasta" maxlength="5" />
+    </div>
+
+
+    <div class="block flex flex-col">
+      <h3>Select wordle language</h3>
+
+      <select id="language">
+        <option value="en">
+          English
+        </option>
+
+        <option value="ru">
+          Russain
+        </option>
+      </select>
+    </div>
+
+    <div id="board" class="block flex flex-col">
+      <h2>Paint solution you want to have</h2>
+
+      <div class="row flex">
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+      </div>
+
+      <div class="row flex">
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+      </div>
+
+      <div class="row flex">
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+      </div>
+
+      <div class="row flex">
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+      </div>
+
+      <div class="row flex">
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+      </div>
+
+      <div class="row flex">
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+        <div class="cell noselect"></div>
+      </div>
+    </div>
+
+    <div class="block flex flex-col">
+      <h3>Pick a color</h3>
+
+      <div class="row flex pallete">
+        <div class="cell noselect correct active" id="correct"></div>
+        <div class="cell noselect present" id="present"></div>
+        <div class="cell noselect absent" id="absent"></div>
+      </div>
+    </div>
+
+    <div class="row flex">
+      <button id="solve">Solve</button>
+    </div>
+  </div>
+</body>
+
+<script defer src="scripts/script.js"></script>
+
+</html>
