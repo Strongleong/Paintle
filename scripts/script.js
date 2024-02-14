@@ -103,10 +103,12 @@ function main() {
       document.documentElement.style.setProperty('--color-cell-correct', 'var(--color-colorblind-correct)');
       document.documentElement.style.setProperty('--color-cell-present', 'var(--color-colorblind-present)');
       document.documentElement.style.setProperty('--color-cell-abscent', 'var(--color-colorblind-abscent)');
+      document.documentElement.style.setProperty('--color-cell-font', 'var(--color-background)');
     } else {
       document.documentElement.style.setProperty('--color-cell-correct', 'var(--color-correct)');
       document.documentElement.style.setProperty('--color-cell-present', 'var(--color-present)');
       document.documentElement.style.setProperty('--color-cell-abscent', 'var(--color-abscent)');
+      document.documentElement.style.setProperty('--color-cell-font', 'var(--color-text)');
     }
   })
 

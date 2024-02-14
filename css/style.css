@@ -56,6 +56,8 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-cell-present: var(--color-present);
   --color-cell-absent:  var(--color-background);
 
+  --color-cell-font: var(--color-text);
+
   --color-cell-nores: #ee4400;
 
   --color-cell-border: var(--color-border);
@@ -167,6 +169,7 @@ h1 {
   text-transform: uppercase;
   cursor: default;
   transition: 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) transform;
+  transition: 0.2s ease-in-out background;
   /* transform: rotateX(180deg); */
 }
 
@@ -232,6 +235,10 @@ h1 {
 
 .absent {
   background: var(--color-cell-absent);
+}
+
+.correct, .present {
+  color: var(--color-cell-font);
 }
 
 .active {
