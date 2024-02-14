@@ -68,7 +68,7 @@ function main() {
   document.addEventListener('mousedown', () => state.mouseDown = true);
   document.addEventListener('mouseup',   () => state.mouseDown = false);
 
-  document.querySelectorAll('.pallete .cell').forEach((cell, i) => {
+  document.querySelectorAll('.pallete .cell').forEach((cell) => {
     cell.addEventListener('click', (e) => {
       e.preventDefault();
       document.getElementById(state.active_color).classList.remove('active');
