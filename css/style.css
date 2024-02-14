@@ -72,10 +72,26 @@ p, h1, h2, h3, h4, h5, h6 {
 
 /* Blocks */
 
+@font-face {
+  font-family: "CaskaydiaCove";
+  src: url('/fonts/caskaydia-cove-light.ttf');
+  src: url('/fonts/caskaydia-cove-light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CaskaydiaCove";
+  src: url('/fonts/caskaydia-cove-bold.ttf');
+  src: url('/fonts/caskaydia-cove-bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text);
-  font-family: "Open Sans", sans-serif;
+  font-family: "CaskaydiaCove", "Open Sans", sans-serif;
 }
 
 header {
