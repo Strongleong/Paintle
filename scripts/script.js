@@ -36,15 +36,7 @@ function find_solutions() {
     }
   })
 
-  const solutions = [];
-
-  regexes.forEach(r => {
-    solutions.push(
-      state.words.filter(v => new RegExp(r).test(v))
-    );
-  });
-
-  return solutions;
+  return regexes.map(r => state.words.filter(v => new RegExp(r).test(v)));
 }
 
 function show_solutions(solutions) {
@@ -82,7 +74,6 @@ function main() {
       document.getElementById(state.active_color).classList.remove('active');
       e.target.classList.add('active');
       state.active_color = e.target.id;
-      state.pattern[i] = state.active_color;
     });
   });
 
@@ -102,6 +93,7 @@ function main() {
       }
 
       cell.classList.value = "cell noselect " + state.active_color;
+
       state.pattern[i] = state.active_color;
     });
   });
@@ -113,5 +105,6 @@ function main() {
     show_solutions(solutions)
   });
 }
+
 
 main();
