@@ -98,6 +98,18 @@ function main() {
     });
   });
 
+  document.getElementById('colorblind-mode').addEventListener('change', e => {
+    if (e.currentTarget.checked) {
+      document.documentElement.style.setProperty('--color-cell-correct', 'var(--color-colorblind-correct)');
+      document.documentElement.style.setProperty('--color-cell-present', 'var(--color-colorblind-present)');
+      document.documentElement.style.setProperty('--color-cell-abscent', 'var(--color-colorblind-abscent)');
+    } else {
+      document.documentElement.style.setProperty('--color-cell-correct', 'var(--color-correct)');
+      document.documentElement.style.setProperty('--color-cell-present', 'var(--color-present)');
+      document.documentElement.style.setProperty('--color-cell-abscent', 'var(--color-abscent)');
+    }
+  })
+
   document.getElementById('solve').addEventListener('click', async () => {
     await fetch_wordlist(document.getElementById('language').value);
     state.correct_answer = document.getElementById('solution').value?.toLowerCase();
