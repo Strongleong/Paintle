@@ -11,6 +11,7 @@
 a {
   all: unset;
   cursor: pointer;
+  transition: 0.2s ease color;
 }
 
 body {
@@ -41,6 +42,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-background: #121213;
   --color-border: #3a3a3c;
   --color-text: #f8f8f8;
+  --color-text-footer: #d8d8d8;
   --color-accent: #85c0f9;
   --color-error: #ee4400;
 
@@ -127,6 +129,17 @@ header {
   justify-items: center;
   border-bottom: 1px solid var(--color-border);
   margin-bottom: 25px;
+}
+
+footer {
+  margin-top: 25px;
+  width: 100%;
+  border-top: 1px solid var(--color-border);
+  padding: 20px;
+}
+
+a:hover {
+  color: var(--color-link-hover);
 }
 
 #github-link {
@@ -322,4 +335,13 @@ code {
 
 .noresult {
   border-color: var(--color-error);
+}
+
+.footer-link {
+  color: var(--color-text-footer);
+  padding: 0 20px;
+}
+
+.footer-link:not(.footer-link:last-child) {
+  border-right: 1px solid var(--color-border);
 }
