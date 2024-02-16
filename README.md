@@ -8,8 +8,8 @@ This tool allowes you to paint how your worlde solution you want to look.
 
  - [X] Searching for correct words to input into wordle
  - [X] Language selection (some regions of the world have their own wordle)
- - [ ] Uploading your own wordle dictionary
+ - [X] Uploading your own wordle dictionary
  - [ ] Night/day scheme switching
- - [ ] Colorblind mode color scheme
+ - [X] Colorblind mode color scheme
  - [ ] Some animations
  - [ ] Board reset
