@@ -1,15 +1,78 @@
-const COLOR_CORRECT = 'correct';
-const COLOR_PRESENT = 'present';
-const COLOR_ABSENT = 'absent';
+// @ts-check
 
-const state = {
-  words: [],
-  active_color: COLOR_CORRECT,
-  mouseDown: false,
-  correct_answer: 'pasta',
-  pattern: Array.from(new Array(30), () => COLOR_ABSENT),
+/**
+ * @template T
+ * @typedef {new (...args: any[]) => T} Class<T>
+ */
+
+/**
+ * @readonly
+ * @enum {String}
+ */
+const CELL_COLORS = {
+  CORRECT: 'correct',
+  PRESENT: 'present',
+  ABSENT:  'absent',
 }
 
+const state = {
+  /** @type {string[]} */
+  words: [],
+
+  /** @type {CELL_COLORS} */
+  active_color: CELL_COLORS.CORRECT,
+
+  /** @type {boolean} */
+  mouseDown: false,
+
+  /** @type {string} */
+  correct_answer: 'pasta',
+
+  /** @type {CELL_COLORS[]} */
+  pattern: Array.from(new Array(30), () => CELL_COLORS.ABSENT),
+}
+
+/** @type {(name: string, value: string) => void} */
+const setCssVar = document.documentElement.style.setProperty.bind(document.documentElement.style);
+
+/**
+ * Retrieves an element by its ID and checks its type.
+ * To make tsserver happy
+ * @template {HTMLElement} T
+ * @param {string} id - ID of the element.
+ * @param {Class<T>} type - Type of the element.
+ * @returns {T} The element bearing the given ID.
+ */
+function getEl(id, type) {
+  const element = document.getElementById(id);
+  if (!element || !(element instanceof type))
+    throw new Error(`Failed to locate HTML element with id ${id} and type ${type}!`);
+  return element;
+}
+
+const dom = {
+  wordlistInputBlock:   getEl('wordlist-input-block', HTMLDivElement),
+  wordlistButton:       getEl('wordlist-upload',      HTMLButtonElement),
+  wordlistInput:        getEl('wordlist-input',       HTMLInputElement),
+  solutionInput:        getEl('solution',             HTMLInputElement),
+  langSelect:           getEl('language',             HTMLSelectElement),
+  wordlistError:        getEl('wordlist-error',       HTMLDivElement),
+  colorblindModeToggle: getEl('colorblind-mode',      HTMLInputElement),
+  solveButton:          getEl('solve',                HTMLButtonElement),
+}
+
+/**
+ * @param {Element|Document} el
+ * @param {Parameters<typeof document.addEventListener>[0]} event
+ * @param {Parameters<typeof document.addEventListener>[1]} callback
+ */
+function listen(el, event, callback) {
+  el.addEventListener(event, callback);
+}
+
+/**
+ * @param {string} name
+ */
 async function fetch_wordlist(name) {
   const res = await fetch(`wordlists/${name}.json`);
   state.words = await res.json();
@@ -29,9 +92,9 @@ function find_solutions() {
     }
 
     switch (x) {
-      case COLOR_CORRECT: regexes[j] += state.correct_answer[k]; break;
-      case COLOR_PRESENT: regexes[j] += `[${state.correct_answer.replaceAll(state.correct_answer[k], '')}]`; break;
-      case COLOR_ABSENT:
+      case CELL_COLORS.CORRECT: regexes[j] += state.correct_answer[k]; break;
+      case CELL_COLORS.PRESENT: regexes[j] += `[${state.correct_answer.replaceAll(state.correct_answer[k], '')}]`; break;
+      case CELL_COLORS.ABSENT:
       default: regexes[j] += `[^${state.correct_answer}]`; break;
     }
   })
@@ -39,8 +102,11 @@ function find_solutions() {
   return regexes.map(r => state.words.filter(v => new RegExp(r).test(v)));
 }
 
-function show_solutions(solutions) {
-  solutions = solutions.map(x => x[Math.floor(Math.random() * x.length) | 0]);
+/**
+ * @param {string[][]} solutionsMap
+ */
+function show_solutions(solutionsMap) {
+  const solutions = solutionsMap.map(x => x[Math.floor(Math.random() * x.length) | 0]);
 
   let j = -1;
 
@@ -64,28 +130,62 @@ function show_solutions(solutions) {
   })
 }
 
+/**
+ * @param {File} file
+ */
+async function loadWordlistFromFile(file) {
+  dom.wordlistButton.innerText = file.name;
+  const words = await file.text()
+  let wordsArr;
+
+  if (file.type === 'application/json') {
+    try {
+      wordsArr = JSON.parse(words);
+      if (!Array.isArray(words)) {
+        dom.wordlistError.innerText = "JSON - не массив";
+      }
+    } catch {
+      dom.wordlistError.innerText = "Не корректный JSON";
+    }
+
+  } else if (file.type === 'text/plain') {
+    wordsArr = words.split('\n').filter(word => word !== "");
+  } else {
+    dom.wordlistError.innerText = "Не корректный тип файла";
+  }
+
+  const badWord = wordsArr.find((/** @type {string} */ word) => word.length !== 5);
+  if (badWord !== undefined) {
+    dom.wordlistError.innerText = "Слово меньше пяти букв - " + badWord;
+  }
+
+  state.words = wordsArr;
+}
+
 function main() {
-  document.addEventListener('mousedown', () => state.mouseDown = true);
-  document.addEventListener('mouseup',   () => state.mouseDown = false);
+  listen(document, 'mousedown', () => state.mouseDown = true);
+  listen(document, 'mouseup',   () => state.mouseDown = false);
 
   document.querySelectorAll('.pallete .cell').forEach((cell) => {
-    cell.addEventListener('click', (e) => {
+    listen(cell, 'click', (e) => {
       e.preventDefault();
-      document.getElementById(state.active_color).classList.remove('active');
-      e.target.classList.add('active');
-      state.active_color = e.target.id;
+      getEl(state.active_color, HTMLDivElement).classList.remove('active');
+      if (e.target instanceof HTMLDivElement) {
+        e.target.classList.add('active');
+        state.active_color = e.target.id;
+      }
     });
   });
 
   document.querySelectorAll('#board .cell').forEach((cell, i) => {
-    cell.addEventListener('mousedown', (e) => {
+    listen(cell, 'mousedown', (e) => {
       e.preventDefault();
       cell.classList.value = "cell " + state.active_color;
       state.pattern[i] = state.active_color;
       state.mouseDown = true;
     });
 
-    cell.addEventListener('mouseover', (e) => {
+    listen(cell, 'mouseover', (e) => {
       e.preventDefault();
 
       if (!state.mouseDown) {
@@ -93,32 +193,55 @@ function main() {
       }
 
       cell.classList.value = "cell noselect " + state.active_color;
-
       state.pattern[i] = state.active_color;
     });
   });
 
-  document.getElementById('colorblind-mode').addEventListener('change', e => {
-    if (e.currentTarget.checked) {
-      document.documentElement.style.setProperty('--color-cell-correct', 'var(--color-colorblind-correct)');
-      document.documentElement.style.setProperty('--color-cell-present', 'var(--color-colorblind-present)');
-      document.documentElement.style.setProperty('--color-cell-abscent', 'var(--color-colorblind-abscent)');
-      document.documentElement.style.setProperty('--color-cell-font', 'var(--color-background)');
+  listen(dom.colorblindModeToggle, 'change', () => {
+    if (dom.colorblindModeToggle.checked) {
+      setCssVar('--color-cell-correct', 'var(--color-colorblind-correct)');
+      setCssVar('--color-cell-present', 'var(--color-colorblind-present)');
+      setCssVar('--color-cell-abscent', 'var(--color-colorblind-abscent)');
+      setCssVar('--color-cell-font',    'var(--color-background)');
     } else {
-      document.documentElement.style.setProperty('--color-cell-correct', 'var(--color-correct)');
-      document.documentElement.style.setProperty('--color-cell-present', 'var(--color-present)');
-      document.documentElement.style.setProperty('--color-cell-abscent', 'var(--color-abscent)');
-      document.documentElement.style.setProperty('--color-cell-font', 'var(--color-text)');
+      setCssVar('--color-cell-correct', 'var(--color-correct)');
+      setCssVar('--color-cell-present', 'var(--color-present)');
+      setCssVar('--color-cell-abscent', 'var(--color-abscent)');
+      setCssVar('--color-cell-font',    'var(--color-text)');
     }
   })
 
-  document.getElementById('solve').addEventListener('click', async () => {
-    await fetch_wordlist(document.getElementById('language').value);
-    state.correct_answer = document.getElementById('solution').value?.toLowerCase();
+  listen(dom.wordlistButton, 'click', () => dom.wordlistInput.click());
+
+  listen(dom.wordlistInput, 'change', async () => {
+    dom.wordlistError.innerText = "";
+    const files = dom.wordlistInput.files;
+    const file = files ? files[0] : null;
+    if (!file) return;
+    await loadWordlistFromFile(file);
+  });
+
+  listen(dom.langSelect, 'change', async () => {
+    if (dom.langSelect.value !== 'own') {
+      await fetch_wordlist(dom.langSelect.value);
+      dom.wordlistInputBlock.classList.add('nodisplay');
+    } else {
+      dom.wordlistInputBlock.classList.remove('nodisplay');
+
+      const files = dom.wordlistInput.files;
+      const file = files ? files[0] : null;
+      if (!file) return;
+      await loadWordlistFromFile(file);
+    }
+  });
+
+  listen(dom.solveButton, 'click', async () => {
+    state.correct_answer = dom.solutionInput.value?.toLowerCase();
     const solutions = find_solutions();
     show_solutions(solutions)
   });
-}
 
+  fetch_wordlist('en');
+}
 
 main();
