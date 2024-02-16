@@ -39,10 +39,45 @@
       </select>
     </div>
 
-    <div class="block nodisplay flex flex-col" id="wordlist-input-block">
-        <button id="wordlist-upload">Upload your custom wordlist</button>
-        <input type="file" accept=".json,.txt" id="wordlist-input" class="nodisplay" />
-        <div id="wordlist-error" class="error"></div>
+    <!-- <div class="block nodisplay flex flex-col" id="wordlist-input-block"> -->
+    <div class="block flex flex-col" id="wordlist-input-block">
+      <div class="row">Wordlist must be either</div>
+
+      <div class="row wordlist-hint">
+        <div class="grid">
+
+          <h3>JSON</h3>
+          <div></div>
+          <h3>TXT</h3>
+
+          <div>JSON object must be array only with words</div>
+          <div class="or">or</div>
+          <div>All words must be separated with new line <kbd>\n</kbd> symbol</div>
+
+          <code>
+            <div>
+              <div class="paren">[</div>
+              <div class="string">"word1",</div>
+              <div class="string">"word2",</div>
+              <div class="string">"word3"</div>
+              <div class="paren">]</div>
+            </div>
+          </code>
+          <div></div>
+          <code>
+            <div>
+              <div>word1</div>
+              <div>word2</div>
+              <div>word3</div>
+            </div>
+          </code>
+        </div>
+      </div>
+
+      <button id="wordlist-upload">Upload your custom wordlist</button>
+      <input type="file" accept=".json,.txt" id="wordlist-input" class="nodisplay" />
+      <div id="wordlist-error" class="error"></div>
+
     </div>
 
     <div id="board" class="block flex flex-col">
