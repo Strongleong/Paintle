@@ -42,6 +42,7 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-border: #3a3a3c;
   --color-text: #f8f8f8;
   --color-accent: #85c0f9;
+  --color-error: #ee4400;
 
   --color-link-hover: var(--color-accent);
 
@@ -58,7 +59,6 @@ p, h1, h2, h3, h4, h5, h6 {
 
   --color-cell-font: var(--color-text);
 
-  --color-cell-nores: #ee4400;
 
   --color-cell-border: var(--color-border);
   --color-pallete-active: #0ff000;
@@ -86,6 +86,10 @@ p, h1, h2, h3, h4, h5, h6 {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+.nodisplay {
+  display: none;
 }
 
 /* Blocks */
@@ -153,6 +157,10 @@ h1 {
   grid-column-start: 2;
   grid-column-end: 3;
   font-size: 36px;
+}
+
+.error {
+  color: var(--color-error);
 }
 
 .cell {
@@ -246,5 +254,5 @@ h1 {
 }
 
 .noresult {
-  border-color: var(--color-cell-nores);
+  border-color: var(--color-error);
 }

@@ -32,7 +32,17 @@
         <option value="ru">
           Russain
         </option>
+
+        <option value="own">
+          Custom
+        </option>
       </select>
+    </div>
+
+    <div class="block nodisplay flex flex-col" id="wordlist-input-block">
+        <button id="wordlist-upload">Upload your custom wordlist</button>
+        <input type="file" accept=".json,.txt" id="wordlist-input" class="nodisplay" />
+        <div id="wordlist-error" class="error"></div>
     </div>
 
     <div id="board" class="block flex flex-col">
