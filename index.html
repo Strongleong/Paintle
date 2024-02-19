@@ -2,9 +2,22 @@
 <html lang="en">
 
 <head>
-  <title>Paintle</title>
+  <title>Paintle - Worlde solution painter</title>
+  <link rel="icon" type="image/x-icon" sizes="50x50" href="/favicon.ico">
+  <link rel="canonical" href="https://paintle.strongleong.ru">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Draw the Wordle solution you want to have, and this application will generate Wordle inputs that will draw what you want.">
+  <meta name="og:title" property="og:title" content="Paintle - Worlde solution painter">
+  <meta name="og:description" property="og:description" content="Draw the Wordle solution you want to have, and this application will generate Wordle inputs that will draw what you want.">
+  <meta name="og:image" property="og:image" content="https://paintle.strongleong.ru/img/logo.png">
+  <meta name="og:url" property="og:url" content="https://paintle.strongleong.ru">
+  <meta name="og:type" property="og:type" content="website">
+  <meta name="robots" content="index, nofollow">
+
+
   <link href="css/style.css" rel="stylesheet">
   <link href="css/nerdfonts.css" rel="stylesheet">
 </head>
@@ -12,12 +25,12 @@
 <body>
   <header>
     <h1>Paintle</h1>
-    <a href="https://github.com/strongleong/paintle" id="github-link" class="nf nf-md-github"></a>
+    <a href="https://github.com/strongleong/paintle" rel="nofollow" id="github-link" class="nf nf-md-github"></a>
   </header>
 
   <div class="content flex flex-col">
     <div class="block flex flex-col">
-      <h3>Enter todays wordle solution</h3>
+      <h3>Enter today's wordle solution</h3>
       <input id="solution" type="text" placeholder="pasta" maxlength="5" />
     </div>
 
@@ -45,9 +58,9 @@
       <div class="row wordlist-hint">
         <div class="grid">
 
-          <h3>JSON</h3>
+          <h4>JSON</h4>
           <div></div>
-          <h3>TXT</h3>
+          <h4>TXT</h4>
 
           <div>JSON object must be array only with words</div>
           <div class="or">or</div>
@@ -155,8 +168,10 @@
   </div>
 
   <footer class="row flex">
-      <a title="Star me on GitHub" class="footer-link" href="https://github.com/strongleong/paintle">Source code</a>
-      <a title="MIT" class="footer-link" href="https://github.com/Strongleong/Paintle/blob/master/LICENSE">License</a>
+    <a title="Star me on GitHub" class="footer-link" rel="nofollow" href="https://github.com/strongleong/paintle">Source
+      code</a>
+    <a title="MIT" class="footer-link" rel="nofollow"
+      href="https://github.com/Strongleong/Paintle/blob/master/LICENSE">License</a>
   </footer>
 </body>
 
