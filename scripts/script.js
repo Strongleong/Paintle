@@ -46,12 +46,12 @@ const setCssVar = document.documentElement.style.setProperty.bind(document.docum
 function getEl(id, type) {
   const element = document.getElementById(id);
   if (!element || !(element instanceof type))
-    throw new Error(`Failed to locate HTML element with id ${id} and type ${type}!`);
+    throw new Error(`Failed to locate HTML element with id '${id}' and type '${type}'!`);
   return element;
 }
 
 const dom = {
-  wordlistInputBlock:   getEl('wordlist-input-block', HTMLDivElement),
+  wordlistInputBlock:   getEl('wordlist-input-block', HTMLElement),
   wordlistButton:       getEl('wordlist-upload',      HTMLButtonElement),
   wordlistInput:        getEl('wordlist-input',       HTMLInputElement),
   solutionInput:        getEl('solution',             HTMLInputElement),
