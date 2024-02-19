@@ -29,12 +29,12 @@
   </header>
 
   <div class="content flex flex-col">
-    <div class="block flex flex-col">
+    <section class="block flex flex-col">
       <h3>Enter today's wordle solution</h3>
       <input id="solution" type="text" placeholder="pasta" maxlength="5" />
-    </div>
+    </section>
 
-    <div class="block flex flex-col">
+    <section class="block flex flex-col">
       <h3>Select wordle language</h3>
 
       <select id="language">
@@ -50,9 +50,9 @@
           Custom
         </option>
       </select>
-    </div>
+    </section>
 
-    <div class="block nodisplay flex flex-col" id="wordlist-input-block">
+    <section class="block nodisplay flex flex-col" id="wordlist-input-block">
       <div class="row">Wordlist must be either</div>
 
       <div class="row wordlist-hint">
@@ -90,9 +90,9 @@
       <input type="file" accept=".json,.txt" id="wordlist-input" class="nodisplay" />
       <div id="wordlist-error" class="error"></div>
 
-    </div>
+    </section>
 
-    <div id="board" class="block flex flex-col">
+    <main id="board" class="block flex flex-col">
       <h2>Paint solution you want to have</h2>
 
       <div class="row flex">
@@ -142,9 +142,9 @@
         <div class="cell noselect"></div>
         <div class="cell noselect"></div>
       </div>
-    </div>
+    </main>
 
-    <div class="block flex flex-col">
+    <section class="block flex flex-col">
       <h3>Pick a color</h3>
 
       <div class="row flex pallete">
@@ -152,19 +152,19 @@
         <div class="cell noselect present" id="present"></div>
         <div class="cell noselect absent" id="absent"></div>
       </div>
-    </div>
+    </section>
 
-    <div class="block">
+    <section class="block">
       <label class="toggle">
         <input class="toggle-checkbox" type="checkbox" id="colorblind-mode">
         <div class="toggle-switch"></div>
         <span class="toggle-label">Colorblind mode</span>
       </label>
-    </div>
+    </section>
 
-    <div class="row flex">
+    <section class="row flex">
       <button id="solve">Solve</button>
-    </div>
+    </section>
   </div>
 
   <footer class="row flex">
