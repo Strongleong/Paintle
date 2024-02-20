@@ -20,7 +20,7 @@ php -S 127.0.0.1:8080
  - [X] Searching for correct words to input into wordle
  - [X] Language selection (some regions of the world have their own wordle)
  - [X] Uploading your own wordle dictionary
- - [ ] Night/day scheme switching
+ - [X] Night/day scheme switching
  - [X] Colorblind mode color scheme
  - [ ] Some animations
  - [ ] Board reset

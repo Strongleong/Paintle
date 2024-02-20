@@ -25,6 +25,9 @@ const state = {
   /** @type {boolean} */
   mouseDown: false,
 
+  /** @type {boolean} */
+  darkMode: true,
+
   /** @type {string} */
   correct_answer: 'pasta',
 
@@ -51,6 +54,7 @@ function getEl(id, type) {
 }
 
 const dom = {
+  darkModeSwitcher:     getEl('dark-mode',            HTMLElement),
   wordlistInputBlock:   getEl('wordlist-input-block', HTMLElement),
   wordlistButton:       getEl('wordlist-upload',      HTMLButtonElement),
   wordlistInput:        getEl('wordlist-input',       HTMLInputElement),
@@ -93,6 +97,7 @@ function find_solutions() {
 
     switch (x) {
       case CELL_COLORS.CORRECT: regexes[j] += state.correct_answer[k]; break;
+      // @ts-ignore 2550
       case CELL_COLORS.PRESENT: regexes[j] += `[${state.correct_answer.replaceAll(state.correct_answer[k], '')}]`; break;
       case CELL_COLORS.ABSENT:
       default: regexes[j] += `[^${state.correct_answer}]`; break;
@@ -197,20 +202,6 @@ function main() {
     });
   });
 
-  listen(dom.colorblindModeToggle, 'change', () => {
-    if (dom.colorblindModeToggle.checked) {
-      setCssVar('--color-cell-correct', 'var(--color-colorblind-correct)');
-      setCssVar('--color-cell-present', 'var(--color-colorblind-present)');
-      setCssVar('--color-cell-abscent', 'var(--color-colorblind-abscent)');
-      setCssVar('--color-cell-font',    'var(--color-background)');
-    } else {
-      setCssVar('--color-cell-correct', 'var(--color-correct)');
-      setCssVar('--color-cell-present', 'var(--color-present)');
-      setCssVar('--color-cell-abscent', 'var(--color-abscent)');
-      setCssVar('--color-cell-font',    'var(--color-text)');
-    }
-  })
-
   listen(dom.wordlistButton, 'click', () => dom.wordlistInput.click());
 
   listen(dom.wordlistInput, 'change', async () => {
@@ -233,6 +224,17 @@ function main() {
       if (!file) return;
       await loadWordlistFromFile(file);
     }
+  });
+
+  listen(dom.colorblindModeToggle, 'change', () => {
+    document.documentElement.classList.toggle('colorblind-mode');
+  })
+
+  listen(dom.darkModeSwitcher, 'click', () => {
+    state.darkMode = !state.darkMode;
+    dom.darkModeSwitcher.classList.toggle('nf-oct-sun');
+    dom.darkModeSwitcher.classList.toggle('nf-oct-moon');
+    document.documentElement.classList.toggle('light-theme');
   });
 
   listen(dom.solveButton, 'click', async () => {
