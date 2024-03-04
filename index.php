@@ -7,8 +7,19 @@ if (!in_array($lang, ['en', 'ru'])) {
 
 if ($_GET['lang'] && in_array($_GET['lang'], ['en', 'ru'])) {
   $lang = $_GET['lang'];
-  setcookie('lang', $lang);
+  setcookie('lang', $lang, [
+    'expires'  => time() + 86400,
+    'path'     => '/',
+    'secure'   => true,
+    'httponly' => true,
+    'samesite' => 'Lax',
+  ]);
 }
+
+$langs = [
+  'en' => 'English',
+  'ru' => 'Русский',
+];
 
 $appNameEn = 'Paintle';
 $appNameRu = 'Пейнтли';
@@ -25,6 +36,10 @@ $translations = [
   'appName' => [
     'en' => $appNameEn,
     'ru' => $appNameRu,
+  ],
+  'langSwitcher' => [
+    'en' => 'Change language',
+    'ru' => 'Смена языка'
   ],
   'darkmodeTooltip' => [
     'en' => 'Dark mode switcher',
@@ -132,7 +147,13 @@ function i18n(string $text): string {
 
 <body>
   <header>
-      <h1><?= i18n('appName') ?></h1>
+    <select title="<?= i18n('langSwitcher') ?>" id="lang-switcher">
+      <?php foreach($langs as $key => $label) { ?>
+        <option value="<?= $key ?>" <?= $lang === $key ? 'selected' : '' ?>><?= $label ?></option>
+      <?php } ?>
+    </select>
+
+    <h1><?= i18n('appName') ?></h1>
 
     <div class="icons">
       <i title="<?= i18n('darkmodeTooltip') ?>" id="dark-mode" class="nf nf-oct-moon"></i>
