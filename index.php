@@ -120,6 +120,8 @@ function i18n(string $text): string {
   global $translations;
   return $translations[$text][$lang];
 }
+
+$correctAnswer = $lang === 'en' ? 'pasta' : 'паста';
 ?>
 
 <!DOCTYPE html>
@@ -143,6 +145,8 @@ function i18n(string $text): string {
 
   <link href="css/style.css" rel="stylesheet">
   <link href="css/nerdfonts.css" rel="stylesheet">
+
+  <script> window.lang = "<?= $lang ?>"; </script>
 </head>
 
 <body>
@@ -165,18 +169,18 @@ function i18n(string $text): string {
   <div class="content flex flex-col">
     <section class="block flex flex-col">
       <h3><?= i18n('wordleSolutionText') ?></h3>
-      <input id="solution" type="text" placeholder="pasta" maxlength="5" />
+      <input id="solution" type="text" placeholder="<?= $correctAnswer ?>" maxlength="5" />
     </section>
 
     <section class="block flex flex-col">
       <h3 id="heading-language"><?= i18n('wordleSolutionText') ?></h3>
 
       <select id="language">
-        <option id="wordlist-lang-en" value="en">
+        <option id="wordlist-lang-en" value="en" <?= $lang === 'en' ? 'selected' : ''?>>
           <?= i18n('wordlistLanguageEn') ?>
         </option>
 
-        <option id="wordlist-lang-ru" value="ru">
+        <option id="wordlist-lang-ru" value="ru" <?= $lang === 'ru' ? 'selected' : ''?>>
           <?= i18n('wordlistLanguageRu') ?>
         </option>
 

@@ -1,5 +1,8 @@
 // @ts-check
 
+// Dirty hack so tsserver stops crying about '<global variable> not defined'
+const lang = /** @type {string} */ (window['lang']);
+
 /**
  * @template T
  * @typedef {new (...args: any[]) => T} Class<T>
@@ -29,7 +32,7 @@ const state = {
   darkMode: true,
 
   /** @type {string} */
-  correct_answer: 'pasta',
+  correct_answer: lang === 'en' ? 'pasta' : 'паста',
 
   /** @type {CELL_COLORS[]} */
   pattern: Array.from(new Array(30), () => CELL_COLORS.ABSENT),
@@ -79,17 +82,6 @@ const dom = {
 function listen(el, event, callback) {
   el.addEventListener(event, callback);
 }
-
-/**
- * Modified `getCookieValue` from
- * https://stackoverflow.com/questions/5639346/what-is-the-shortest-function-for-reading-a-cookie-by-name-in-javascript
- * @returns {string}
- */
-function getLangFromCookies() {
-  return document.cookie.match('(^|;)\\s*lang\\s*=\\s*([^;]+)')?.pop() || 'en';
-}
-
-const lang = getLangFromCookies();
 
 /**
  * @returns {number}
@@ -178,7 +170,6 @@ function find_solutions() {
     }
   })
 
-  console.log(regexes);
   return regexes.map(r => state.words.filter(v => new RegExp(r).test(v)));
 }
 
@@ -324,7 +315,7 @@ function main() {
     show_solutions(solutions)
   });
 
-  fetch_wordlist('en');
+  fetch_wordlist(lang);
 }
 
 main();
