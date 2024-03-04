@@ -24,96 +24,8 @@ $langs = [
 $appNameEn = 'Paintle';
 $appNameRu = 'Пейнтли';
 
-$translations = [
-  'title' => [
-    'en' => "$appNameEn - Worlde solution painter app",
-    'ru' => "$appNameRu - приложение для рисования решений для Вордли",
-  ],
-  'description' => [
-    'en' => 'Draw the Wordle solution you want to have, and this application will generate Wordle inputs that will give your drawing.',
-    'ru' => 'Нарисуйте такое решение Вордли, которое хотите, и это приложение сгенерирует слова для Вордли, которые выдадут ваш рисунок.',
-  ],
-  'appName' => [
-    'en' => $appNameEn,
-    'ru' => $appNameRu,
-  ],
-  'langSwitcher' => [
-    'en' => 'Change language',
-    'ru' => 'Смена языка'
-  ],
-  'darkmodeTooltip' => [
-    'en' => 'Dark mode switcher',
-    'ru' => 'Темная тема',
-  ],
-  'githubLinkTooltip' => [
-    'en' => 'Star me on GitHub',
-    'ru' => 'Поставь звездочку на GitHub',
-  ],
-  'wordleSolutionText' => [
-    'en' => 'Enter today\'s Wordle solution',
-    'ru' => 'Введите сегодняшнее решение Wordle',
-  ],
-  'wordlistLanguageSelectionText' => [
-    'en' => 'Select Wordle language',
-    'ru' => 'Выберите язык Wordle',
-  ],
-  'wordlistLanguageEn' => [
-    'en' => 'English: (www.nytimes.com)',
-    'ru' => 'Английский: (www.nytimes.com)',
-  ],
-  'wordlistLanguageRu' => [
-    'en' => 'Russain: (wordle.belousov.one)',
-    'ru' => 'Русский: (wordle.belousov.one)',
-  ],
-  'wordlistLanguageCustom' => [
-    'en' => 'Upload your own wordlist',
-    'ru' => 'Загрузите ваш словарь',
-  ],
-  'wordlistInputText' => [
-    'en' => 'Wordlist must be either',
-    'ru' => 'Словарь должен быть',
-  ],
-  'wordlistInputJson' => [
-    'en' => 'JSON object must be array only with words',
-    'ru' => 'JSON объект должен быть массив слов',
-  ],
-  'wordlistInputOr' => [
-    'en' => 'or',
-    'ru' => 'или',
-  ],
-  'wordlistInputTxt' => [
-    'en' => 'Each word must be on a separate line',
-    'ru' => 'Каждое слово обязано быть на отдельной строчке',
-  ],
-  'wordlistInputUpload' => [
-    'en' => 'Upload your custom wordlist',
-    'ru' => 'Загрузите ваш пользовательский словарь',
-  ],
-  'mainText' => [
-    'en' => 'Paint solution you want to have',
-    'ru' => 'Нарисуйте решение которое вам нарвится',
-  ],
-  'colorPickerText' => [
-    'en' => 'Pick a color',
-    'ru' => 'Выберите цвет',
-  ],
-  'colorblindMode' => [
-    'en' => 'Colorblind mode',
-    'ru' => 'Режим дальтоника',
-  ],
-  'solveButton' => [
-    'en' => 'Solve',
-    'ru' => 'Решить',
-  ],
-  'footerSourceCode' => [
-    'en' => 'Source code',
-    'ru' => 'Исходный код',
-  ],
-  'footerLicense' => [
-    'en' => 'License',
-    'ru' => 'Лицензия',
-  ],
-];
+$translations = require_once __DIR__ . '/translations.php';
+$correctAnswer = $lang === 'en' ? 'pasta' : 'паста';
 
 function i18n(string $text): string {
   global $lang;
@@ -143,6 +55,16 @@ function i18n(string $text): string {
 
   <link href="css/style.css" rel="stylesheet">
   <link href="css/nerdfonts.css" rel="stylesheet">
+
+  <script>
+    window.lang = "<?= $lang ?>";
+    window.errorMessages = {
+      jsonIsNotAnArray:      <?= i18n('errorMessagesJsonIsNotAnArray')      ?>,
+      jsonIsNotValid:        <?= i18n('errorMessagesJsonIsNotValid')        ?>,
+      uploadedFileWrongFile: <?= i18n('errorMessagesUploadedFileWrongFile') ?>,
+      uploadedFileBadWord:   <?= i18n('errorMessagesUploadedFileBadWord')   ?>,
+    };
+  </script>
 </head>
 
 <body>
@@ -165,18 +87,18 @@ function i18n(string $text): string {
   <div class="content flex flex-col">
     <section class="block flex flex-col">
       <h3><?= i18n('wordleSolutionText') ?></h3>
-      <input id="solution" type="text" placeholder="pasta" maxlength="5" />
+      <input id="solution" type="text" placeholder="<?= $correctAnswer ?>" maxlength="5" />
     </section>
 
     <section class="block flex flex-col">
       <h3 id="heading-language"><?= i18n('wordleSolutionText') ?></h3>
 
       <select id="language">
-        <option id="wordlist-lang-en" value="en">
+        <option id="wordlist-lang-en" value="en" <?= $lang === 'en' ? 'selected' : ''?>>
           <?= i18n('wordlistLanguageEn') ?>
         </option>
 
-        <option id="wordlist-lang-ru" value="ru">
+        <option id="wordlist-lang-ru" value="ru" <?= $lang === 'ru' ? 'selected' : ''?>>
           <?= i18n('wordlistLanguageRu') ?>
         </option>
 

@@ -1,5 +1,12 @@
 // @ts-check
 
+// Dirty hack so tsserver stops crying about '<global variable> not defined'
+/** @type {string} */
+const lang = window['lang'];
+
+/** @type {Record<string, string>} */
+const errorMessages = window['errorMessages'];
+
 /**
  * @template T
  * @typedef {new (...args: any[]) => T} Class<T>
@@ -29,7 +36,7 @@ const state = {
   darkMode: true,
 
   /** @type {string} */
-  correct_answer: 'pasta',
+  correct_answer: lang === 'en' ? 'pasta' : 'паста',
 
   /** @type {CELL_COLORS[]} */
   pattern: Array.from(new Array(30), () => CELL_COLORS.ABSENT),
@@ -81,64 +88,6 @@ function listen(el, event, callback) {
 }
 
 /**
- * Modified `getCookieValue` from
- * https://stackoverflow.com/questions/5639346/what-is-the-shortest-function-for-reading-a-cookie-by-name-in-javascript
- * @returns {string}
- */
-function getLangFromCookies() {
-  return document.cookie.match('(^|;)\\s*lang\\s*=\\s*([^;]+)')?.pop() || 'en';
-}
-
-const lang = getLangFromCookies();
-
-/**
- * @returns {number}
- */
-function iota() {
-  if (this.i === undefined) {
-    this.i = 0;
-  }
-  return this.i++;
-}
-
-/**
- * @readonly
- * @enum {number}
- */
-const ERROR_MESSAGES = {
-  jsonIsNotAnArray: iota(),
-  jsonIsNotValid: iota(),
-  uploadedFileWrongFile: iota(),
-  uploadedFileBadWord: iota(),
-}
-
-const translations = {
-  [ERROR_MESSAGES.jsonIsNotAnArray]: {
-    en: 'Uploaded JSON is not an array',
-    ru: 'Загруженный JSON не массив',
-  },
-  [ERROR_MESSAGES.jsonIsNotValid]: {
-    en: 'Uploaded JSON is not an array',
-    ru: 'Загруженный JSON не корректный',
-  },
-  [ERROR_MESSAGES.uploadedFileWrongFile]: {
-    en: 'Uploaded file have wrong filetype',
-    ru: 'Загруженный файл имеет не корректный тип файла',
-  },
-  [ERROR_MESSAGES.uploadedFileBadWord]: {
-    en: 'Uploaded file contains a not vadild word',
-    ru: 'Загруженный файл имеет не корректное слово',
-  },
-}
-
-/**
- * @param {ERROR_MESSAGES} text
- */
-function i18n(text) {
-  return ERROR_MESSAGES[text][lang];
-}
-
-/**
  * @param {string} name
  */
 async function fetch_wordlist(name) {
@@ -178,7 +127,6 @@ function find_solutions() {
     }
   })
 
-  console.log(regexes);
   return regexes.map(r => state.words.filter(v => new RegExp(r).test(v)));
 }
 
@@ -224,21 +172,21 @@ async function loadWordlistFromFile(file) {
     try {
       wordsArr = JSON.parse(words);
       if (!Array.isArray(words)) {
-        dom.wordlistError.innerText = i18n(ERROR_MESSAGES.jsonIsNotAnArray);
+        dom.wordlistError.innerText = errorMessages.jsonIsNotAnArray;
       }
     } catch {
-      dom.wordlistError.innerText = i18n(ERROR_MESSAGES.jsonIsNotValid);
+      dom.wordlistError.innerText = errorMessages.jsonIsNotValid;
     }
 
   } else if (file.type === 'text/plain') {
     wordsArr = words.split('\n').filter(word => word !== "");
   } else {
-    dom.wordlistError.innerText = i18n(ERROR_MESSAGES.uploadedFileWrongFile);
+    dom.wordlistError.innerText = errorMessages.uploadedFileWrongFile;
   }
 
   const badWord = wordsArr.find((/** @type {string} */ word) => word.length !== 5);
   if (badWord !== undefined) {
-    dom.wordlistError.innerText = i18n(ERROR_MESSAGES.uploadedFileBadWord) + ": '" + badWord + "'";
+    dom.wordlistError.innerText = errorMessages.uploadedFileBadWord + ": '" + badWord + "'";
   }
 
   state.words = wordsArr;
@@ -324,7 +272,7 @@ function main() {
     show_solutions(solutions)
   });
 
-  fetch_wordlist('en');
+  fetch_wordlist(lang);
 }
 
 main();
