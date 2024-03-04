@@ -57,6 +57,7 @@ function getEl(id, type) {
 }
 
 const dom = {
+  langSwitcher:         getEl('lang-switcher',          HTMLSelectElement),
   darkModeSwitcher:     getEl('dark-mode',              HTMLElement),
   githubLink:           getEl('github-link',            HTMLElement),
   wordlistInputHeading: getEl('wordlist-input-heading', HTMLDivElement),
@@ -276,6 +277,10 @@ function main() {
       cell.classList.value = "cell noselect " + state.active_color;
       state.pattern[i] = state.active_color;
     });
+  });
+
+  listen(dom.langSwitcher, 'change', () => {
+    document.location = `${location.protocol}//${document.location.host}${location.pathname}?lang=${dom.langSwitcher.value}`;
   });
 
   listen(dom.wordlistButton, 'click', () => dom.wordlistInput.click());

@@ -16,7 +16,6 @@ This project is just a bunch of static files. To start Paintlie localy just use 
 Examples:
 
 ```console
-python -m http.server 8080
 php -S 127.0.0.1:8080
 ```
 
