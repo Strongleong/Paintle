@@ -1,4 +1,9 @@
-# Paintlie
+<p align=center>
+  <a target="_blank" href="http://paintle.strongleong.ru">
+    <img src="./img/logo.png">
+  </a>
+</p>
+<h1 align="center">Paintlie</h1>
 
 This tool allowes you to paint how your worlde solution you want to look.
 

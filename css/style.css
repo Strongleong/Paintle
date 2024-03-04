@@ -6,6 +6,7 @@
 
 * {
   margin: 0;
+  text-align: center;
 }
 
 a {
@@ -268,15 +269,17 @@ code {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  padding: 0 40px;
 }
 
 .paren {
   color: var(--color-json-parent);
+  text-align: start;
+  align-self: flex-start;
 }
 
 .string {
   color: var(--color-json-string);
-  padding-left: 15px;
 }
 
 .sample {
@@ -376,7 +379,7 @@ code {
 }
 
 .noresult {
-  border-color: var(--color-error);
+  border: 2px solid var(--color-error);
 }
 
 .footer-link {

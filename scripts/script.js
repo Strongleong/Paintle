@@ -48,21 +48,26 @@ const setCssVar = document.documentElement.style.setProperty.bind(document.docum
  */
 function getEl(id, type) {
   const element = document.getElementById(id);
-  if (!element || !(element instanceof type))
+
+  if (!element || !(element instanceof type)) {
     throw new Error(`Failed to locate HTML element with id '${id}' and type '${type}'!`);
+  }
+
   return element;
 }
 
 const dom = {
-  darkModeSwitcher:     getEl('dark-mode',            HTMLElement),
-  wordlistInputBlock:   getEl('wordlist-input-block', HTMLElement),
-  wordlistButton:       getEl('wordlist-upload',      HTMLButtonElement),
-  wordlistInput:        getEl('wordlist-input',       HTMLInputElement),
-  solutionInput:        getEl('solution',             HTMLInputElement),
-  langSelect:           getEl('language',             HTMLSelectElement),
-  wordlistError:        getEl('wordlist-error',       HTMLDivElement),
-  colorblindModeToggle: getEl('colorblind-mode',      HTMLInputElement),
-  solveButton:          getEl('solve',                HTMLButtonElement),
+  darkModeSwitcher:     getEl('dark-mode',              HTMLElement),
+  githubLink:           getEl('github-link',            HTMLElement),
+  wordlistInputHeading: getEl('wordlist-input-heading', HTMLDivElement),
+  wordlistInputBlock:   getEl('wordlist-input-block',   HTMLElement),
+  wordlistButton:       getEl('wordlist-upload',        HTMLButtonElement),
+  wordlistInput:        getEl('wordlist-input',         HTMLInputElement),
+  solutionInput:        getEl('solution',               HTMLInputElement),
+  langSelect:           getEl('language',               HTMLSelectElement),
+  wordlistError:        getEl('wordlist-error',         HTMLDivElement),
+  colorblindModeToggle: getEl('colorblind-mode',        HTMLInputElement),
+  solveButton:          getEl('solve',                  HTMLButtonElement),
 }
 
 /**
@@ -72,6 +77,64 @@ const dom = {
  */
 function listen(el, event, callback) {
   el.addEventListener(event, callback);
+}
+
+/**
+ * Modified `getCookieValue` from
+ * https://stackoverflow.com/questions/5639346/what-is-the-shortest-function-for-reading-a-cookie-by-name-in-javascript
+ * @returns {string}
+ */
+function getLangFromCookies() {
+  return document.cookie.match('(^|;)\\s*lang\\s*=\\s*([^;]+)')?.pop() || 'en';
+}
+
+const lang = getLangFromCookies();
+
+/**
+ * @returns {number}
+ */
+function iota() {
+  if (this.i === undefined) {
+    this.i = 0;
+  }
+  return this.i++;
+}
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+const ERROR_MESSAGES = {
+  jsonIsNotAnArray: iota(),
+  jsonIsNotValid: iota(),
+  uploadedFileWrongFile: iota(),
+  uploadedFileBadWord: iota(),
+}
+
+const translations = {
+  [ERROR_MESSAGES.jsonIsNotAnArray]: {
+    en: 'Uploaded JSON is not an array',
+    ru: 'Загруженный JSON не массив',
+  },
+  [ERROR_MESSAGES.jsonIsNotValid]: {
+    en: 'Uploaded JSON is not an array',
+    ru: 'Загруженный JSON не корректный',
+  },
+  [ERROR_MESSAGES.uploadedFileWrongFile]: {
+    en: 'Uploaded file have wrong filetype',
+    ru: 'Загруженный файл имеет не корректный тип файла',
+  },
+  [ERROR_MESSAGES.uploadedFileBadWord]: {
+    en: 'Uploaded file contains a not vadild word',
+    ru: 'Загруженный файл имеет не корректное слово',
+  },
+}
+
+/**
+ * @param {ERROR_MESSAGES} text
+ */
+function i18n(text) {
+  return ERROR_MESSAGES[text][lang];
 }
 
 /**
@@ -85,6 +148,7 @@ async function fetch_wordlist(name) {
 
 function find_solutions() {
   const regexes = [];
+  let correct_answer = state.correct_answer
   let j = -1;
 
   state.pattern.forEach((x, i) => {
@@ -92,18 +156,28 @@ function find_solutions() {
 
     if (k === 0) {
       regexes.push('');
+      correct_answer = state.correct_answer
       j++;
     }
 
     switch (x) {
-      case CELL_COLORS.CORRECT: regexes[j] += state.correct_answer[k]; break;
-      // @ts-ignore 2550
-      case CELL_COLORS.PRESENT: regexes[j] += `[${state.correct_answer.replaceAll(state.correct_answer[k], '')}]`; break;
+      case CELL_COLORS.CORRECT: {
+        regexes[j] += state.correct_answer[k];
+        // @ts-ignore
+        correct_answer = correct_answer.replaceAll(state.correct_answer[k], '')
+        break;
+      }
+      case CELL_COLORS.PRESENT: {
+        // @ts-ignore
+        regexes[j] += `[${correct_answer.replaceAll(state.correct_answer[k], '')}]`;
+        break;
+      }
       case CELL_COLORS.ABSENT:
       default: regexes[j] += `[^${state.correct_answer}]`; break;
     }
   })
 
+  console.log(regexes);
   return regexes.map(r => state.words.filter(v => new RegExp(r).test(v)));
 }
 
@@ -143,25 +217,27 @@ async function loadWordlistFromFile(file) {
   const words = await file.text()
   let wordsArr;
 
+  // TODO: i18n errors
+
   if (file.type === 'application/json') {
     try {
       wordsArr = JSON.parse(words);
       if (!Array.isArray(words)) {
-        dom.wordlistError.innerText = "JSON - не массив";
+        dom.wordlistError.innerText = i18n(ERROR_MESSAGES.jsonIsNotAnArray);
       }
     } catch {
-      dom.wordlistError.innerText = "Не корректный JSON";
+      dom.wordlistError.innerText = i18n(ERROR_MESSAGES.jsonIsNotValid);
     }
 
   } else if (file.type === 'text/plain') {
     wordsArr = words.split('\n').filter(word => word !== "");
   } else {
-    dom.wordlistError.innerText = "Не корректный тип файла";
+    dom.wordlistError.innerText = i18n(ERROR_MESSAGES.uploadedFileWrongFile);
   }
 
   const badWord = wordsArr.find((/** @type {string} */ word) => word.length !== 5);
   if (badWord !== undefined) {
-    dom.wordlistError.innerText = "Слово меньше пяти букв - " + badWord;
+    dom.wordlistError.innerText = i18n(ERROR_MESSAGES.uploadedFileBadWord) + ": '" + badWord + "'";
   }
 
   state.words = wordsArr;
@@ -238,7 +314,7 @@ function main() {
   });
 
   listen(dom.solveButton, 'click', async () => {
-    state.correct_answer = dom.solutionInput.value?.toLowerCase();
+    state.correct_answer ??= dom.solutionInput.value?.toLowerCase();
     const solutions = find_solutions();
     show_solutions(solutions)
   });
