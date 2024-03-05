@@ -77,6 +77,7 @@ const dom = {
   wordlistError:        getEl('wordlist-error',         HTMLDivElement),
   colorblindModeToggle: getEl('colorblind-mode',        HTMLInputElement),
   solveButton:          getEl('solve',                  HTMLButtonElement),
+  boardResetButton:     getEl('board-reset-button',     HTMLButtonElement),
 }
 
 /**
@@ -289,6 +290,16 @@ function main() {
     dom.darkModeSwitcher.classList.toggle('nf-oct-sun');
     dom.darkModeSwitcher.classList.toggle('nf-oct-moon');
     document.documentElement.classList.toggle('light-theme');
+  });
+
+  listen(dom.boardResetButton, 'click', () => {
+    document.querySelectorAll('.cell').forEach((cell) => {
+      cell.classList.value = 'cell noselect cell-anim';
+      setTimeout(() => {
+        cell.classList.remove('cell-anim');
+        cell.innerHTML = ''
+      }, 500)
+    })
   });
 
   listen(dom.solveButton, 'click', async () => {

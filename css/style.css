@@ -286,6 +286,10 @@ code {
   height: 100%;
 }
 
+#board-reset-button {
+  margin-top: 20px;
+}
+
 .cell {
   width: 62px;
   height: 62px;
