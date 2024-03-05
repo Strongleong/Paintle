@@ -183,8 +183,6 @@ async function loadWordlistFromFile(file) {
   const words = await file.text()
   let wordsArr;
 
-  // TODO: i18n errors
-
   if (file.type === 'application/json') {
     try {
       wordsArr = JSON.parse(words);
@@ -281,6 +279,10 @@ function main() {
   });
 
   listen(dom.colorblindModeToggle, 'change', () => {
+    document.querySelectorAll('#board .cell').forEach((cell) => {
+      cell.classList.add('cell-trans');
+      setTimeout(() => cell.classList.remove('cell-trans'), 200)
+    })
     document.documentElement.classList.toggle('colorblind-mode');
   })
 
@@ -288,6 +290,11 @@ function main() {
     state.darkMode = !state.darkMode;
     dom.darkModeSwitcher.classList.toggle('nf-oct-sun');
     dom.darkModeSwitcher.classList.toggle('nf-oct-moon');
+    document.querySelectorAll('#board .cell').forEach((cell) => {
+      cell.classList.add('cell-trans');
+      setTimeout(() => cell.classList.remove('cell-trans'), 200)
+    })
+    document.documentElement.classList.toggle('colorblind-mode');
     document.documentElement.classList.toggle('light-theme');
   });
 
