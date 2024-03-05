@@ -72,6 +72,7 @@ const dom = {
   wordlistButton:       getEl('wordlist-upload',        HTMLButtonElement),
   wordlistInput:        getEl('wordlist-input',         HTMLInputElement),
   solutionInput:        getEl('solution',               HTMLInputElement),
+  loadSolutionButton:   getEl('load-solution-button',   HTMLButtonElement),
   langSelect:           getEl('language',               HTMLSelectElement),
   wordlistError:        getEl('wordlist-error',         HTMLDivElement),
   colorblindModeToggle: getEl('colorblind-mode',        HTMLInputElement),
@@ -94,6 +95,13 @@ async function fetch_wordlist(name) {
   const res = await fetch(`wordlists/${name}.json`);
   state.words = await res.json();
   state.wordlist = name;
+}
+
+async function fetch_solution() {
+  const res = await fetch(`spoil_solution.php?lang=${dom.langSelect.value}`);
+  const solution = (await res.json()).solution;
+  state.correct_answer = solution;
+  dom.solutionInput.value = solution;
 }
 
 function find_solutions() {
@@ -231,6 +239,12 @@ function main() {
     document.location = `${location.protocol}//${document.location.host}${location.pathname}?lang=${dom.langSwitcher.value}`;
   });
 
+  listen(dom.loadSolutionButton, 'click', async () => {
+    dom.loadSolutionButton.classList.toggle('button--loading');
+    await fetch_solution()
+    dom.loadSolutionButton.classList.toggle('button--loading');
+  });
+
   listen(dom.wordlistButton, 'click', () => dom.wordlistInput.click());
 
   listen(dom.wordlistInput, 'change', async () => {
@@ -272,7 +286,7 @@ function main() {
     show_solutions(solutions)
   });
 
-  fetch_wordlist(lang);
+  fetch_wordlist(dom.langSelect.value);
 }
 
 main();
