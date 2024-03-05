@@ -26,5 +26,7 @@ php -S 127.0.0.1:8080
  - [X] Uploading your own wordle dictionary
  - [X] Night/day scheme switching
  - [X] Colorblind mode color scheme
- - [ ] Some animations
- - [ ] Board reset
+ - [X] Some animations
+ - [X] Board reset
+ - [X] Localisation
+ - [ ] Better explanation of project
