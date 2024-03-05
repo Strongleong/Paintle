@@ -109,4 +109,8 @@ return [
     'en' => 'Load today solution (spoilers)',
     'ru' => 'Загрузить сегодняшнее решение (спойлеры)',
   ],
+  'boardResetButton' => [
+    'en' => 'Reset the board',
+    'ru' => 'Сбросить доску',
+  ],
 ];

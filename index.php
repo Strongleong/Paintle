@@ -159,6 +159,8 @@ function i18n(string $text): string {
 
         </div>
       <?php } ?>
+
+      <button id="board-reset-button"><?= i18n('boardResetButton') ?></button>
     </main>
 
     <section class="block flex flex-col">
