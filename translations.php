@@ -105,4 +105,8 @@ return [
     'en' => 'Uploaded file contains a not vadild word',
     'ru' => 'Загруженный файл имеет не корректное слово',
   ],
+  'loadSolutionButton' => [
+    'en' => 'Load today solution (spoilers)',
+    'ru' => 'Загрузить сегодняшнее решение (спойлеры)',
+  ],
 ];

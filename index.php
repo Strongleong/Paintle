@@ -59,10 +59,10 @@ function i18n(string $text): string {
   <script>
     window.lang = "<?= $lang ?>";
     window.errorMessages = {
-      jsonIsNotAnArray:      <?= i18n('errorMessagesJsonIsNotAnArray')      ?>,
-      jsonIsNotValid:        <?= i18n('errorMessagesJsonIsNotValid')        ?>,
-      uploadedFileWrongFile: <?= i18n('errorMessagesUploadedFileWrongFile') ?>,
-      uploadedFileBadWord:   <?= i18n('errorMessagesUploadedFileBadWord')   ?>,
+      jsonIsNotAnArray:      "<?= i18n('errorMessagesJsonIsNotAnArray')      ?>",
+      jsonIsNotValid:        "<?= i18n('errorMessagesJsonIsNotValid')        ?>",
+      uploadedFileWrongFile: "<?= i18n('errorMessagesUploadedFileWrongFile') ?>",
+      uploadedFileBadWord:   "<?= i18n('errorMessagesUploadedFileBadWord')   ?>",
     };
   </script>
 </head>
@@ -88,6 +88,9 @@ function i18n(string $text): string {
     <section class="block flex flex-col">
       <h3><?= i18n('wordleSolutionText') ?></h3>
       <input id="solution" type="text" placeholder="<?= $correctAnswer ?>" maxlength="5" />
+      <button id="load-solution-button" class="button">
+        <span class="button-text"><?= i18n('loadSolutionButton') ?></span>
+      </button>
     </section>
 
     <section class="block flex flex-col">
