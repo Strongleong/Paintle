@@ -279,7 +279,7 @@ function main() {
   });
 
   listen(dom.colorblindModeToggle, 'change', () => {
-    document.querySelectorAll('#board .cell').forEach((cell) => {
+    document.querySelectorAll('.cell').forEach((cell) => {
       cell.classList.add('cell-trans');
       setTimeout(() => cell.classList.remove('cell-trans'), 200)
     })
@@ -290,7 +290,7 @@ function main() {
     state.darkMode = !state.darkMode;
     dom.darkModeSwitcher.classList.toggle('nf-oct-sun');
     dom.darkModeSwitcher.classList.toggle('nf-oct-moon');
-    document.querySelectorAll('#board .cell').forEach((cell) => {
+    document.querySelectorAll('.cell').forEach((cell) => {
       cell.classList.add('cell-trans');
       setTimeout(() => cell.classList.remove('cell-trans'), 200)
     })
