@@ -289,7 +289,6 @@ code {
 .cell {
   width: 62px;
   height: 62px;
-  /* border: 2px solid var(--color-cell-border); */
   background: var(--color-cell-absent);
   color: var(--color-cell-absent-font);
   display: inline-flex;
@@ -300,9 +299,19 @@ code {
   font-weight: bold;
   text-transform: uppercase;
   cursor: default;
-  transition: 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) transform;
-  transition: 0.2s ease-in-out background;
-  /* transform: rotateX(180deg); */
+  transition: 0.5s ease-out transform, 0.5s step-end background;
+}
+
+.cell-anim {
+  transform: rotateX(90deg);
+}
+
+.cell-anim-delay {
+  transition-delay: calc(var(--animation-order) * 100ms);
+}
+
+.pallete .cell {
+  transition: border 0.2s ease;
 }
 
 .toggle {
@@ -337,13 +346,16 @@ code {
   left: 4px;
   transition: left 0.25s;
 }
+
 .toggle:hover .toggle-switch:before {
   background: linear-gradient(to bottom, #fff 0%, #fff 100%);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
+
 .toggle-checkbox:checked + .toggle-switch {
   background: #56c080;
 }
+
 .toggle-checkbox:checked + .toggle-switch:before {
   left: 30px;
 }

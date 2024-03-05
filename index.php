@@ -147,53 +147,15 @@ function i18n(string $text): string {
     <main id="board" class="block flex flex-col">
       <h2><?= i18n('mainText') ?></h2>
 
-      <div class="row flex">
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-      </div>
+      <?php for ($i = 0; $i < 6; $i++) { ?>
+        <div class="row flex">
 
-      <div class="row flex">
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-      </div>
+        <?php for ($j = 0; $j < 5; $j++) { ?>
+          <div class="cell noselect" style="--animation-order: <?= ($i * 6) + $j ?>;"></div>
+        <?php } ?>
 
-      <div class="row flex">
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-      </div>
-
-      <div class="row flex">
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-      </div>
-
-      <div class="row flex">
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-      </div>
-
-      <div class="row flex">
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-        <div class="cell noselect"></div>
-      </div>
+        </div>
+      <?php } ?>
     </main>
 
     <section class="block flex flex-col">

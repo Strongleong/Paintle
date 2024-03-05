@@ -147,14 +147,23 @@ function show_solutions(solutionsMap) {
 
     const word = solutions[j]
 
-    if (word !== undefined) {
-      cell.innerHTML = word[k];
-      cell.classList.remove('noresult');
-      return;
-    }
+    cell.classList.add('cell-anim');
+    cell.classList.add('cell-anim-delay');
+    const timeout = 500 + 100 * Number(/** @type {HTMLDivElement} */ (cell).style.getPropertyValue('--animation-order'));
 
-    cell.innerHTML = '';
-    cell.classList.add('noresult');
+    setTimeout(() =>  {
+      cell.classList.remove('cell-anim')
+      cell.classList.remove('cell-anim-delay')
+
+      if (word !== undefined) {
+        cell.innerHTML = word[k];
+        cell.classList.remove('noresult');
+        return;
+      }
+
+      cell.innerHTML = '';
+      cell.classList.add('noresult');
+    }, timeout);
   })
 }
 
@@ -210,7 +219,8 @@ function main() {
   document.querySelectorAll('#board .cell').forEach((cell, i) => {
     listen(cell, 'mousedown', (e) => {
       e.preventDefault();
-      cell.classList.value = "cell " + state.active_color;
+      cell.classList.value = "cell cell-anim " + state.active_color;
+      setTimeout(() => cell.classList.remove('cell-anim'), 500);
       state.pattern[i] = state.active_color;
       state.mouseDown = true;
     });
@@ -222,7 +232,8 @@ function main() {
         return;
       }
 
-      cell.classList.value = "cell noselect " + state.active_color;
+      cell.classList.value = "cell noselect cell-anim " + state.active_color;
+      setTimeout(() => cell.classList.remove('cell-anim'), 500);
       state.pattern[i] = state.active_color;
     });
   });
