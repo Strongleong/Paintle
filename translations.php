@@ -1,14 +1,6 @@
 <?php
 
-$translations = [];
-
-function i18n(string $text): string {
-  global $lang;
-  global $translations;
-  return $translations[$text][$lang];
-}
-
-$translations = [
+return [
   'langs' => [
     'en' => 'English',
     'ru' => 'Русский',

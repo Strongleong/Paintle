@@ -1,9 +1,6 @@
 // @ts-check
 
 // Dirty hack so tsserver stops crying about '<global variable> not defined'
-/** @type {string} */
-const lang = window['lang'];
-
 /** @type {Record<string, string>} */
 const errorMessages = window['errorMessages'];
 
@@ -36,7 +33,7 @@ const state = {
   darkMode: true,
 
   /** @type {string} */
-  correct_answer: lang === 'en' ? 'pasta' : 'паста',
+  worldeAnswer: window['worldeSampleAnswer'],
 
   /** @type {CELL_COLORS[]} */
   pattern: Array.from(new Array(30), () => CELL_COLORS.ABSENT),
@@ -101,13 +98,13 @@ async function fetch_wordlist(name) {
 async function fetch_solution() {
   const res = await fetch(`spoil_solution.php?lang=${dom.langSelect.value}`);
   const solution = (await res.json()).solution;
-  state.correct_answer = solution;
+  state.worldeAnswer = solution;
   dom.solutionInput.value = solution;
 }
 
 function find_solutions() {
   const regexes = [];
-  let correct_answer = state.correct_answer
+  let correct_answer = state.worldeAnswer;
   let j = -1;
 
   state.pattern.forEach((x, i) => {
@@ -115,24 +112,24 @@ function find_solutions() {
 
     if (k === 0) {
       regexes.push('');
-      correct_answer = state.correct_answer
+      correct_answer = state.worldeAnswer;
       j++;
     }
 
     switch (x) {
       case CELL_COLORS.CORRECT: {
-        regexes[j] += state.correct_answer[k];
+        regexes[j] += state.worldeAnswer[k];
         // @ts-ignore
-        correct_answer = correct_answer.replaceAll(state.correct_answer[k], '')
+        correct_answer = correct_answer.replaceAll(state.worldeAnswer[k], '');
         break;
       }
       case CELL_COLORS.PRESENT: {
         // @ts-ignore
-        regexes[j] += `[${correct_answer.replaceAll(state.correct_answer[k], '')}]`;
+        regexes[j] += `[${correct_answer.replaceAll(state.worldeAnswer[k], '')}]`;
         break;
       }
       case CELL_COLORS.ABSENT:
-      default: regexes[j] += `[^${state.correct_answer}]`; break;
+      default: regexes[j] += `[^${state.worldeAnswer}]`; break;
     }
   })
 
@@ -154,15 +151,15 @@ function show_solutions(solutionsMap) {
       j++;
     }
 
-    const word = solutions[j]
+    const word = solutions[j];
 
     cell.classList.add('cell-anim');
     cell.classList.add('cell-anim-delay');
     const timeout = 500 + 100 * Number(/** @type {HTMLDivElement} */ (cell).style.getPropertyValue('--animation-order'));
 
     setTimeout(() =>  {
-      cell.classList.remove('cell-anim')
-      cell.classList.remove('cell-anim-delay')
+      cell.classList.remove('cell-anim');
+      cell.classList.remove('cell-anim-delay');
 
       if (word !== undefined) {
         cell.innerHTML = word[k];
@@ -181,7 +178,7 @@ function show_solutions(solutionsMap) {
  */
 async function loadWordlistFromFile(file) {
   dom.wordlistButton.innerText = file.name;
-  const words = await file.text()
+  const words = await file.text();
   let wordsArr;
 
   if (file.type === 'application/json') {
@@ -282,7 +279,7 @@ function main() {
   listen(dom.colorblindModeToggle, 'change', () => {
     document.querySelectorAll('.cell').forEach((cell) => {
       cell.classList.add('cell-trans');
-      setTimeout(() => cell.classList.remove('cell-trans'), 200)
+      setTimeout(() => cell.classList.remove('cell-trans'), 200);
     })
     document.documentElement.classList.toggle('colorblind-mode');
   })
@@ -293,7 +290,7 @@ function main() {
     dom.darkModeSwitcher.classList.toggle('nf-oct-moon');
     document.querySelectorAll('.cell').forEach((cell) => {
       cell.classList.add('cell-trans');
-      setTimeout(() => cell.classList.remove('cell-trans'), 200)
+      setTimeout(() => cell.classList.remove('cell-trans'), 200);
     })
     document.documentElement.classList.toggle('colorblind-mode');
     document.documentElement.classList.toggle('light-theme');
@@ -304,15 +301,14 @@ function main() {
       cell.classList.value = 'cell noselect cell-anim';
       setTimeout(() => {
         cell.classList.remove('cell-anim');
-        cell.innerHTML = ''
-      }, 500)
+        cell.innerHTML = '';
+      }, 500);
     })
   });
 
   listen(dom.solveButton, 'click', async () => {
-    state.correct_answer ??= dom.solutionInput.value?.toLowerCase();
-    const solutions = find_solutions();
-    show_solutions(solutions)
+    state.worldeAnswer ??= dom.solutionInput.value?.toLowerCase();
+    show_solutions(find_solutions());
   });
 
   fetch_wordlist(dom.langSelect.value);

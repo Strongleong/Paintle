@@ -1,11 +1,14 @@
 <?php
+$translations = require_once __DIR__ . '/translations.php';
+
+$langs = array_keys($translations['langs']);
 $lang = $_COOKIE['lang'] ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
-if (!in_array($lang, ['en', 'ru'])) {
+if (!in_array($lang, $langs)) {
   $lang = 'en';
 }
 
-if ($_GET['lang'] && in_array($_GET['lang'], ['en', 'ru'])) {
+if ($_GET['lang'] && in_array($_GET['lang'], $langs)) {
   $lang = $_GET['lang'];
   setcookie('lang', $lang, [
     'expires'  => time() + 86400,
@@ -16,7 +19,11 @@ if ($_GET['lang'] && in_array($_GET['lang'], ['en', 'ru'])) {
   ]);
 }
 
-$translations = require_once __DIR__ . '/translations.php';
+function i18n(string $text): string {
+  global $lang;
+  global $translations;
+  return $translations[$text][$lang];
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +49,7 @@ $translations = require_once __DIR__ . '/translations.php';
   <link href="css/nerdfonts.css" rel="stylesheet">
 
   <script>
-    window.lang = "<?= $lang ?>";
+    window.worldeSampleAnswer = "<?= i18n('worldeSampleAnswer') ?>";
     window.errorMessages = {
       jsonIsNotAnArray:      "<?= i18n('errorMessagesJsonIsNotAnArray')      ?>",
       jsonIsNotValid:        "<?= i18n('errorMessagesJsonIsNotValid')        ?>",
