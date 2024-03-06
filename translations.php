@@ -1,17 +1,33 @@
 <?php
 
-return [
+$translations = [];
+
+function i18n(string $text): string {
+  global $lang;
+  global $translations;
+  return $translations[$text][$lang];
+}
+
+$translations = [
+  'langs' => [
+    'en' => 'English',
+    'ru' => 'Русский',
+  ],
+  'worldeSampleAnswer' => [
+    'en' => 'pasta',
+    'ru' => 'паста',
+  ],
   'title' => [
-    'en' => "$appNameEn - Worlde solution painter app",
-    'ru' => "$appNameRu - приложение для рисования решений для Вордли",
+    'en' => "Paintle - Worlde solution painter app",
+    'ru' => "Пейнтли - приложение для рисования решений для Вордли",
   ],
   'description' => [
     'en' => 'Draw the Wordle solution you want to have, and this application will generate Wordle inputs that will give your drawing.',
     'ru' => 'Нарисуйте такое решение Вордли, которое хотите, и это приложение сгенерирует слова для Вордли, которые выдадут ваш рисунок.',
   ],
   'appName' => [
-    'en' => $appNameEn,
-    'ru' => $appNameRu,
+    'en' => 'Paintle',
+    'ru' => 'Пейнтли',
   ],
   'langSwitcher' => [
     'en' => 'Change language',
@@ -114,3 +130,5 @@ return [
     'ru' => 'Сбросить доску',
   ],
 ];
+
+return $translations;

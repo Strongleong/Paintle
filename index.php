@@ -16,22 +16,7 @@ if ($_GET['lang'] && in_array($_GET['lang'], ['en', 'ru'])) {
   ]);
 }
 
-$langs = [
-  'en' => 'English',
-  'ru' => 'Русский',
-];
-
-$appNameEn = 'Paintle';
-$appNameRu = 'Пейнтли';
-
 $translations = require_once __DIR__ . '/translations.php';
-$correctAnswer = $lang === 'en' ? 'pasta' : 'паста';
-
-function i18n(string $text): string {
-  global $lang;
-  global $translations;
-  return $translations[$text][$lang];
-}
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +55,7 @@ function i18n(string $text): string {
 <body>
   <header>
     <select title="<?= i18n('langSwitcher') ?>" id="lang-switcher">
-      <?php foreach($langs as $key => $label) { ?>
+      <?php foreach($translations['langs'] as $key => $label) { ?>
         <option value="<?= $key ?>" <?= $lang === $key ? 'selected' : '' ?>><?= $label ?></option>
       <?php } ?>
     </select>
@@ -87,7 +72,7 @@ function i18n(string $text): string {
   <div class="content flex flex-col">
     <section class="block flex flex-col">
       <h3><?= i18n('wordleSolutionText') ?></h3>
-      <input id="solution" type="text" placeholder="<?= $correctAnswer ?>" maxlength="5" />
+      <input id="solution" type="text" placeholder="<?= i18n('worldeSampleAnswer') ?>" maxlength="5" />
       <button id="load-solution-button" class="button">
         <span class="button-text"><?= i18n('loadSolutionButton') ?></span>
       </button>
