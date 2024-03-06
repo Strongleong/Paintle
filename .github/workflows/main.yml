@@ -1,5 +1,5 @@
 on:
-  relase:
+  release:
     types: [published]
   workflow_dispatch:
 
