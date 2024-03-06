@@ -300,7 +300,7 @@ function main() {
   });
 
   listen(dom.boardResetButton, 'click', () => {
-    document.querySelectorAll('.cell').forEach((cell) => {
+    document.querySelectorAll('main .cell').forEach((cell) => {
       cell.classList.value = 'cell noselect cell-anim';
       setTimeout(() => {
         cell.classList.remove('cell-anim');
@@ -310,7 +310,7 @@ function main() {
   });
 
   listen(dom.solveButton, 'click', async () => {
-    state.correct_answer ??= dom.solutionInput.value?.toLowerCase();
+    state.correct_answer = dom.solutionInput.value?.toLowerCase() ?? state.correct_answer;
     const solutions = find_solutions();
     show_solutions(solutions)
   });
