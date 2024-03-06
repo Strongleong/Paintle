@@ -1,7 +1,6 @@
 on:
-  push:
-    branches:
-      - master
+  relase:
+    types: [published]
   workflow_dispatch:
 
 jobs:
