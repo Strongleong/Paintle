@@ -79,7 +79,7 @@ $translations = require_once __DIR__ . '/translations.php';
     </section>
 
     <section class="block flex flex-col">
-      <h3 id="heading-language"><?= i18n('wordleSolutionText') ?></h3>
+      <h3 id="heading-language"><?= i18n('wordlistLanguageSelectionText') ?></h3>
 
       <select id="language">
         <option id="wordlist-lang-en" value="en" <?= $lang === 'en' ? 'selected' : ''?>>

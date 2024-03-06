@@ -42,12 +42,12 @@ $translations = [
     'ru' => 'Поставь звездочку на GitHub',
   ],
   'wordleSolutionText' => [
-    'en' => 'Enter today\'s Wordle solution',
+    'en' => 'Enter today Wordle solution',
     'ru' => 'Введите сегодняшнее решение Wordle',
   ],
   'wordlistLanguageSelectionText' => [
-    'en' => 'Select Wordle language',
-    'ru' => 'Выберите язык Wordle',
+    'en' => 'Select Wordle variation',
+    'ru' => 'Выберите вариант Wordle',
   ],
   'wordlistLanguageEn' => [
     'en' => 'English: (www.nytimes.com)',
