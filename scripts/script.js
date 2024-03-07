@@ -307,7 +307,7 @@ function main() {
   });
 
   listen(dom.solveButton, 'click', async () => {
-    state.correct_answer = dom.solutionInput.value?.toLowerCase() ?? state.correct_answer;
+    state.worldeAnswer = dom.solutionInput.value?.toLowerCase() ?? state.worldeAnswer;
     show_solutions(find_solutions());
   });
 
