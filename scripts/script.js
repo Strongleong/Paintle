@@ -299,6 +299,7 @@ function main() {
   listen(dom.boardResetButton, 'click', () => {
     document.querySelectorAll('main .cell').forEach((cell) => {
       cell.classList.value = 'cell noselect cell-anim';
+      state.pattern = Array.from(new Array(30), () => CELL_COLORS.ABSENT);
       setTimeout(() => {
         cell.classList.remove('cell-anim');
         cell.innerHTML = '';
