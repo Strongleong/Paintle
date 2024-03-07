@@ -5,6 +5,8 @@
 </p>
 <h1 align="center">Paintlie</h1>
 
+[![.github/workflows/main.yml](https://github.com/Strongleong/Paintle/actions/workflows/main.yml/badge.svg)](https://github.com/Strongleong/Paintle/actions/workflows/main.yml)
+
 This tool allowes you to paint how your worlde solution you want to look.
 
 ![Paintlie screenshot](./img/paintle.png)
