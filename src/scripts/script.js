@@ -39,9 +39,6 @@ const state = {
   pattern: Array.from(new Array(30), () => CELL_COLORS.ABSENT),
 }
 
-/** @type {(name: string, value: string) => void} */
-const setCssVar = document.documentElement.style.setProperty.bind(document.documentElement.style);
-
 /**
  * Retrieves an element by its ID and checks its type.
  * To make tsserver happy
@@ -155,7 +152,7 @@ function show_solutions(solutionsMap) {
 
     cell.classList.add('cell-anim');
     cell.classList.add('cell-anim-delay');
-    const timeout = 500 + 100 * Number(/** @type {HTMLDivElement} */ (cell).style.getPropertyValue('--animation-order'));
+    const timeout = 200 + 50 * Number(/** @type {HTMLDivElement} */ (cell).style.getPropertyValue('--animation-order'));
 
     setTimeout(() =>  {
       cell.classList.remove('cell-anim');
@@ -224,7 +221,7 @@ function main() {
     listen(cell, 'mousedown', (e) => {
       e.preventDefault();
       cell.classList.value = "cell cell-anim " + state.active_color;
-      setTimeout(() => cell.classList.remove('cell-anim'), 500);
+      setTimeout(() => cell.classList.remove('cell-anim'), 200);
       state.pattern[i] = state.active_color;
       state.mouseDown = true;
     });
@@ -237,7 +234,7 @@ function main() {
       }
 
       cell.classList.value = "cell noselect cell-anim " + state.active_color;
-      setTimeout(() => cell.classList.remove('cell-anim'), 500);
+      setTimeout(() => cell.classList.remove('cell-anim'), 200);
       state.pattern[i] = state.active_color;
     });
   });
@@ -303,7 +300,7 @@ function main() {
       setTimeout(() => {
         cell.classList.remove('cell-anim');
         cell.innerHTML = '';
-      }, 500);
+      }, 200);
     })
   });
 

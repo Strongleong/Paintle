@@ -78,6 +78,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
   --color-code-background: var(--color-absent-dark);
   --color-cell-border: var(--color-border);
+
+  --cell-anim-duration: 0.2s;
 }
 
 .light-theme {
@@ -303,7 +305,7 @@ code {
   font-weight: bold;
   text-transform: uppercase;
   cursor: default;
-  transition: 0.5s ease-out transform, 0.5s step-end background;
+  transition: var(--cell-anim-duration) ease-out transform, var(--cell-anim-duration) step-end background;
 }
 
 .cell-anim {
@@ -315,11 +317,11 @@ code {
 }
 
 .cell-anim-delay {
-  transition-delay: calc(var(--animation-order) * 100ms);
+  transition-delay: calc(var(--animation-order) * 50ms);
 }
 
 .pallete .cell {
-  transition: border 0.2s ease;
+  transition: border var(--cell-anim-duration) ease;
 }
 
 .toggle {

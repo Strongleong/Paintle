@@ -13,11 +13,18 @@ This tool allowes you to paint how your worlde solution you want to look.
 
 ## Local devlopment
 
-This project is just a bunch of static files. To start Paintlie localy just use anything that can serve static files via HTTP.
-
-Examples:
+### Via Docker
 
 ```console
+docker-compose up -d
+```
+
+Local instance of Paintle will be accessible at `paintle.localtest.me`
+
+### Via PHP
+
+```console
+cd src
 php -S 127.0.0.1:8080
 ```
 

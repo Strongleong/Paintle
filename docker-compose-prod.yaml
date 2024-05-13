@@ -1,0 +1,12 @@
+services:
+  php:
+    image: php:8.2-fpm
+    container_name: paintle_php
+    user: "1000"
+    working_dir: /var/www/html/
+    volumes:
+      - ./src:/var/www/html
+    env:
+      - VIRTUAL_HOST=paintle.strongleong.ru
+      - LETSENCRYPT_HOST=paintle.strongleong.ru
+      - VIRTUAL_PROTO=fastcgi
