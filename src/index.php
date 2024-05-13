@@ -8,7 +8,7 @@ if (!in_array($lang, $langs)) {
   $lang = 'en';
 }
 
-if ($_GET['lang'] && in_array($_GET['lang'], $langs)) {
+if (key_exists('lang', $_GET) && $_GET['lang'] && in_array($_GET['lang'], $langs)) {
   $lang = $_GET['lang'];
   setcookie('lang', $lang, [
     'expires'  => time() + 86400,

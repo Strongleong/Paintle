@@ -1,0 +1,22 @@
+services:
+  php:
+    image: php:8.2-fpm
+    container_name: paintle_php
+    user: "1000"
+    working_dir: /var/www/html/
+    volumes:
+      - ./src:/var/www/html
+
+  nginx:
+    image: nginx:latest
+    container_name: paintle_nginx
+    working_dir: /var/www/html/
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+    links:
+      - php
+    depends_on:
+      - php
+    ports:
+      - "80:80"
