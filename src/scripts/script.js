@@ -75,6 +75,48 @@ const dom = {
 }
 
 /**
+ * @typedef {Object} CacheValue
+ * @property {any} value
+ * @property {number} timestamp
+ */
+
+/**
+ * @param {string} key
+ * @param {any} value
+ */
+function cache_add(key, value) {
+  /** @type {CacheValue} */
+  const data = {
+    timestamp: Date.now(),
+    value
+  };
+
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+/**
+ * @param {string} key
+ * @returns any|null
+ */
+function cache_get(key) {
+  const item = localStorage.getItem(key);
+
+  if (item === null) {
+    return null;
+  }
+
+  /** @type {CacheValue) */
+  const data = JSON.parse(item);
+  const three_hours = 3 * 60 * 60 * 1000;
+
+  if (Date.now() - data.timestamp > three_hours) {
+    localStorage.removeItem(key);
+  }
+
+  return data.value;
+}
+
+/**
  * @param {Element|Document} el
  * @param {Parameters<typeof document.addEventListener>[0]} event
  * @param {Parameters<typeof document.addEventListener>[1]} callback
@@ -96,6 +138,7 @@ async function fetch_solution() {
   const res = await fetch(`spoil_solution.php?lang=${dom.langSelect.value}`);
   const solution = (await res.json()).solution;
   state.worldeAnswer = solution;
+  cache_add(`solution.${window['lang']}`, solution);
   dom.solutionInput.value = solution;
 }
 
@@ -203,6 +246,13 @@ async function loadWordlistFromFile(file) {
 }
 
 function main() {
+  const solution = cache_get(`solution.${window['lang']}`);
+
+  if (solution) {
+    state.worldeAnswer = solution;
+    dom.solutionInput.value = solution;
+  }
+
   listen(document, 'mousedown', () => state.mouseDown = true);
   listen(document, 'mouseup',   () => state.mouseDown = false);
 

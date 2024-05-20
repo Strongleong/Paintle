@@ -49,6 +49,7 @@ function i18n(string $text): string {
   <link href="css/nerdfonts.css" rel="stylesheet">
 
   <script>
+    window.lang = "<?= $lang ?>";
     window.worldeSampleAnswer = "<?= i18n('worldeSampleAnswer') ?>";
     window.errorMessages = {
       jsonIsNotAnArray:      "<?= i18n('errorMessagesJsonIsNotAnArray')      ?>",
