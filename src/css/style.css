@@ -170,6 +170,10 @@ footer {
   padding: 20px;
 }
 
+#lang-switcher {
+  justify-self: flex-start;
+}
+
 .icons {
   font-size: 2rem;
   grid-column-start: 3;
