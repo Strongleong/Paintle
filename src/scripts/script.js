@@ -105,7 +105,7 @@ function cache_get(key) {
     return null;
   }
 
-  /** @type {CacheValue) */
+  /** @type {CacheValue} */
   const data = JSON.parse(item);
   const three_hours = 3 * 60 * 60 * 1000;
 
@@ -339,7 +339,6 @@ function main() {
       cell.classList.add('cell-trans');
       setTimeout(() => cell.classList.remove('cell-trans'), 200);
     })
-    document.documentElement.classList.toggle('colorblind-mode');
     document.documentElement.classList.toggle('light-theme');
   });
 
