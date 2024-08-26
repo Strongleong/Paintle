@@ -251,6 +251,9 @@ function main() {
   if (solution) {
     state.worldeAnswer = solution;
     dom.solutionInput.value = solution;
+  } else {
+    // Forcefuly clearing solution input to combat browser cache
+    dom.solutionInput.value = "";
   }
 
   listen(document, 'mousedown', () => state.mouseDown = true);
