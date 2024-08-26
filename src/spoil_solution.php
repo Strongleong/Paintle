@@ -65,7 +65,7 @@ function getSolution()
 }
 
 $res = [
-  'solution' => getSolution(),
+  'solution' => htmlspecialchars(getSolution(), ENT_QUOTES),
 ];
 
 header('Content-Type: application/json');
