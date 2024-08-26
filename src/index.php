@@ -1,14 +1,18 @@
 <?php
+
+$appVersion = getenv('PAINTLE_APP_VERSION') ?: 'dev';
+$appVersion = htmlspecialchars($appVersion, ENT_QUOTES);
+
 $translations = require_once __DIR__ . '/translations.php';
 
-$langs = array_keys($translations['langs']);
+$allowed_langs = array_keys($translations['langs']);
 $lang = $_COOKIE['lang'] ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
-if (!in_array($lang, $langs)) {
+if (!in_array($lang, $allowed_langs)) {
   $lang = 'en';
 }
 
-if (key_exists('lang', $_GET) && $_GET['lang'] && in_array($_GET['lang'], $langs)) {
+if (key_exists('lang', $_GET) && $_GET['lang'] && in_array($_GET['lang'], $allowed_langs)) {
   $lang = $_GET['lang'];
   setcookie('lang', $lang, [
     'expires'  => time() + 86400,
@@ -68,7 +72,7 @@ function i18n(string $text): string {
       <?php } ?>
     </select>
 
-    <h1><?= i18n('appName') ?></h1>
+    <h1 title="<?= $appVersion ?>"><?= i18n('appName') ?></h1>
 
     <div class="icons">
       <i title="<?= i18n('darkmodeTooltip') ?>" id="dark-mode" class="nf nf-oct-moon"></i>
@@ -180,6 +184,7 @@ function i18n(string $text): string {
   </div>
 
   <footer class="row flex">
+      <span class="app-version">Version <?= $appVersion ?></span>
       <a title="<?= i18n('githubLinkTooltip') ?>" class="footer-link" rel="nofollow" href="https://github.com/strongleong/paintle"><?= i18n('footerSourceCode') ?></a>
       <a title="MIT" class="footer-link" rel="nofollow" href="https://github.com/Strongleong/Paintle/blob/master/LICENSE"><?= i18n('footerLicense') ?></a>
   </footer>

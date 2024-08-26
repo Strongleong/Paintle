@@ -168,6 +168,7 @@ footer {
   width: 100%;
   border-top: 1px solid var(--color-border);
   padding: 20px;
+  position: relative;
 }
 
 #lang-switcher {
@@ -448,5 +449,18 @@ code {
 
   to {
     transform: rotate(1turn);
+  }
+}
+
+.app-version {
+  color: var(--color-border);
+  position: absolute;
+  left: 5%;
+}
+
+@media screen and (max-width: 600px) {
+  .app-version {
+    /*  TODO: Come up with version placement at screens with small width */
+    display: none;
   }
 }
