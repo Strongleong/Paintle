@@ -185,8 +185,8 @@ function i18n(string $text): string {
 
   <footer class="row flex">
       <span class="app-version">Version <?= $appVersion ?></span>
-      <a title="<?= i18n('githubLinkTooltip') ?>" class="footer-link" rel="nofollow" href="https://github.com/strongleong/paintle"><?= i18n('footerSourceCode') ?></a>
-      <a title="MIT" class="footer-link" rel="nofollow" href="https://github.com/Strongleong/Paintle/blob/master/LICENSE"><?= i18n('footerLicense') ?></a>
+      <a title="<?= i18n('githubLinkTooltip') ?>" class="footer-link" target="_blank" rel="nofollow" href="https://github.com/strongleong/paintle"><?= i18n('footerSourceCode') ?></a>
+      <a title="MIT" class="footer-link" rel="nofollow" target="_blank" href="https://github.com/Strongleong/Paintle/blob/master/LICENSE"><?= i18n('footerLicense') ?></a>
   </footer>
 </body>
 
