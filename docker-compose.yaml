@@ -6,6 +6,8 @@ services:
     container_name: paintle_php
     user: "1000"
     working_dir: /var/www/html/
+    environment:
+        PAINTLE_APP_VERSION: $PAINTLE_APP_VERSION
     volumes:
       - ./src:/var/www/html
 
