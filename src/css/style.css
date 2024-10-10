@@ -61,8 +61,8 @@ p, h1, h2, h3, h4, h5, h6 {
   --color-present-light: #6aaa64;
   --color-absent-light: #787c7e;
 
-  --color-colorblind-correct: #85c0f9;
-  --color-colorblind-present: #f5793a;
+  --color-colorblind-correct: #f5793a;
+  --color-colorblind-present: #85c0f9;
 
   --color-background: var(--color-background-dark);
   --color-text: var(--color-text-dark);
