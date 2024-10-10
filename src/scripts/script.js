@@ -145,35 +145,36 @@ async function fetch_solution() {
 function find_solutions() {
   const regexes = [];
   let correct_answer = state.worldeAnswer;
-  let j = -1;
+  let current_regex_index = -1; // beacause we increment it in pattern for loop
 
-  state.pattern.forEach((x, i) => {
-    let k = i % 5;
+  state.pattern.forEach((cell, i) => {
+    let row = i % 5;
 
-    if (k === 0) {
+    // For every row create new regex
+    if (row === 0) {
       regexes.push('');
       correct_answer = state.worldeAnswer;
-      j++;
+      current_regex_index++;
     }
 
-    switch (x) {
+    switch (cell) {
       case CELL_COLORS.CORRECT: {
-        regexes[j] += state.worldeAnswer[k];
+        regexes[current_regex_index] += state.worldeAnswer[row];
         // @ts-ignore
-        correct_answer = correct_answer.replaceAll(state.worldeAnswer[k], '');
+        correct_answer = correct_answer.replaceAll(state.worldeAnswer[row], '');
         break;
       }
       case CELL_COLORS.PRESENT: {
         // @ts-ignore
-        regexes[j] += `[${correct_answer.replaceAll(state.worldeAnswer[k], '')}]`;
+        regexes[current_regex_index] += `[${correct_answer.replaceAll(state.worldeAnswer[row], '')}]`;
         break;
       }
       case CELL_COLORS.ABSENT:
-      default: regexes[j] += `[^${state.worldeAnswer}]`; break;
+      default: regexes[current_regex_index] += `[^${state.worldeAnswer}]`; break;
     }
   })
 
-  return regexes.map(r => state.words.filter(v => new RegExp(r).test(v)));
+  return regexes.map(regex => state.words.filter(word => new RegExp(regex).test(word)));
 }
 
 /**
