@@ -45,7 +45,7 @@ const state = {
  */
 function patternSet(index, color) {
   state.pattern[index] = color;
-  cache_add('pattern', state.pattern);
+  cache_set('pattern', state.pattern);
 }
 
 function patternReset() {
@@ -105,7 +105,7 @@ const dom = {
  * @param {string} key
  * @param {any} value
  */
-function cache_add(key, value) {
+function cache_set(key, value) {
   /** @type {CacheValue} */
   const data = {
     timestamp: Date.now(),
@@ -166,7 +166,7 @@ async function fetch_solution() {
   const res = await fetch(`spoil_solution.php?lang=${dom.langSelect.value}`);
   const solution = (await res.json()).solution;
   state.worldeAnswer = solution;
-  cache_add(`solution.${window['lang']}`, solution);
+  cache_set(`solution.${window['lang']}`, solution);
   dom.solutionInput.value = solution;
 }
 
