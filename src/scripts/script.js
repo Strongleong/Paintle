@@ -362,6 +362,10 @@ function main() {
     show_solutions(find_solutions());
   });
 
+  if (dom.colorblindModeToggle.checked) {
+    document.documentElement.classList.add('colorblind-mode');
+  }
+
   fetch_wordlist(dom.langSelect.value);
 }
 
