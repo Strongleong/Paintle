@@ -40,6 +40,27 @@ const state = {
 }
 
 /**
+ * @param {number} index
+ * @param {CELL_COLORS} color
+ */
+function patternSet(index, color) {
+  state.pattern[index] = color;
+  cache_add('pattern', state.pattern);
+}
+
+function patternReset() {
+  state.pattern = Array.from(new Array(30), () => CELL_COLORS.ABSENT);
+  cache_delete('pattern')
+}
+
+function patternDraw() {
+  document.querySelectorAll('#board .cell').forEach((cell, i) => {
+    cell.classList.value = "cell cell-anim " + state.pattern[i];
+    setTimeout(() => cell.classList.remove('cell-anim'), 200);
+  });
+}
+
+/**
  * Retrieves an element by its ID and checks its type.
  * To make tsserver happy
  * @template {HTMLElement} T
@@ -110,10 +131,17 @@ function cache_get(key) {
   const three_hours = 3 * 60 * 60 * 1000;
 
   if (Date.now() - data.timestamp > three_hours) {
-    localStorage.removeItem(key);
+    cache_delete(key);
   }
 
   return data.value;
+}
+
+/**
+ * @param {string} key
+ */
+function cache_delete(key) {
+  localStorage.removeItem(key)
 }
 
 /**
@@ -276,7 +304,7 @@ function main() {
       e.preventDefault();
       cell.classList.value = "cell cell-anim " + state.active_color;
       setTimeout(() => cell.classList.remove('cell-anim'), 200);
-      state.pattern[i] = state.active_color;
+      patternSet(i, state.active_color);
       state.mouseDown = true;
     });
 
@@ -289,7 +317,7 @@ function main() {
 
       cell.classList.value = "cell noselect cell-anim " + state.active_color;
       setTimeout(() => cell.classList.remove('cell-anim'), 200);
-      state.pattern[i] = state.active_color;
+      patternSet(i, state.active_color);
     });
   });
 
@@ -349,7 +377,7 @@ function main() {
   listen(dom.boardResetButton, 'click', () => {
     document.querySelectorAll('main .cell').forEach((cell) => {
       cell.classList.value = 'cell noselect cell-anim';
-      state.pattern = Array.from(new Array(30), () => CELL_COLORS.ABSENT);
+      patternReset();
       setTimeout(() => {
         cell.classList.remove('cell-anim');
         cell.innerHTML = '';
@@ -364,6 +392,12 @@ function main() {
 
   if (dom.colorblindModeToggle.checked) {
     document.documentElement.classList.add('colorblind-mode');
+  }
+
+  const pattern = cache_get('pattern');
+  if (pattern) {
+    state.pattern = pattern;
+    patternDraw();
   }
 
   fetch_wordlist(dom.langSelect.value);
