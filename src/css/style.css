@@ -181,6 +181,9 @@ footer {
   grid-column-end: 4;
   justify-self: end;
   cursor: pointer;
+}
+
+.icons > * {
   transition: 0.2s ease color;
 }
 
