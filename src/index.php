@@ -103,7 +103,7 @@ function i18n(string $text): string {
           <?= i18n('wordlistLanguageRu') ?>
         </option>
 
-        <option id="wordlist-lang-custom" value="own">
+        <option id="wordlist-lang-custom" value="custom">
           <?= i18n('wordlistLanguageCustom') ?>
         </option>
       </select>

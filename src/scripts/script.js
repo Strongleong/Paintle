@@ -169,10 +169,10 @@ async function fetch_wordlist(name) {
 }
 
 async function fetch_solution() {
-  const res = await fetch(`spoil_solution.php?lang=${dom.langSelect.value}`);
+  const res = await fetch(`spoil_solution.php?lang=${state.current_wordlist}`);
   const solution = (await res.json()).solution;
   state.worldeAnswer = solution;
-  cache_set(`solution.${window['lang']}`, solution);
+  cache_set(`solution.${state.current_wordlist}`, solution);
   dom.solutionInput.value = solution;
 }
 
@@ -288,7 +288,7 @@ function main() {
 
   state.wordlists['custom'] = [];
 
-  const solution = cache_get(`solution.${window['lang']}`);
+  const solution = cache_get(`solution.${state.current_wordlist}`);
 
   if (solution) {
     state.worldeAnswer = solution;
@@ -355,7 +355,12 @@ function main() {
   });
 
   listen(dom.langSelect, 'change', async () => {
-    if (dom.langSelect.value !== 'own') {
+    if (state.wordlists[dom.langSelect.value].length > 0) {
+      state.current_wordlist = dom.langSelect.value;
+      return
+    }
+
+    if (dom.langSelect.value !== 'custom') {
       await fetch_wordlist(dom.langSelect.value);
       dom.wordlistInputBlock.classList.add('nodisplay');
     } else {
