@@ -4,6 +4,9 @@
 /** @type {Record<string, string>} */
 const errorMessages = window['errorMessages'];
 
+/** @type {Array<string>} */
+const allowedLangs = window['allowedLangs'];
+
 /**
  * @template T
  * @typedef {new (...args: any[]) => T} Class<T>
@@ -20,8 +23,11 @@ const CELL_COLORS = {
 }
 
 const state = {
-  /** @type {string[]} */
-  words: [],
+  /** @type {Record<string, Array<string>>} */
+  wordlists: {},
+
+  /** @type {string} */
+  current_wordlist: '',
 
   /** @type {CELL_COLORS} */
   active_color: CELL_COLORS.CORRECT,
@@ -158,8 +164,8 @@ function listen(el, event, callback) {
  */
 async function fetch_wordlist(name) {
   const res = await fetch(`wordlists/${name}.json`);
-  state.words = await res.json();
-  state.wordlist = name;
+  state.wordlists[name] = await res.json();
+  state.current_wordlist = name;
 }
 
 async function fetch_solution() {
@@ -202,7 +208,7 @@ function find_solutions() {
     }
   })
 
-  return regexes.map(regex => state.words.filter(word => new RegExp(regex).test(word)));
+  return regexes.map(regex => state.wordlists[state.current_wordlist].filter(word => new RegExp(regex).test(word)));
 }
 
 /**
@@ -271,10 +277,17 @@ async function loadWordlistFromFile(file) {
     dom.wordlistError.innerText = errorMessages.uploadedFileBadWord + ": '" + badWord + "'";
   }
 
-  state.words = wordsArr;
+  state.current_wordlist = 'custom'
+  state.wordlists['custom'] = wordsArr;
 }
 
 function main() {
+  allowedLangs.forEach(lang => {
+    state.wordlists[lang] = [];
+  });
+
+  state.wordlists['custom'] = [];
+
   const solution = cache_get(`solution.${window['lang']}`);
 
   if (solution) {
@@ -347,6 +360,7 @@ function main() {
       dom.wordlistInputBlock.classList.add('nodisplay');
     } else {
       dom.wordlistInputBlock.classList.remove('nodisplay');
+      // TODO: cache worlde solution
 
       const files = dom.wordlistInput.files;
       const file = files ? files[0] : null;

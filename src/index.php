@@ -54,6 +54,7 @@ function i18n(string $text): string {
 
   <script>
     window.lang = "<?= $lang ?>";
+    window.allowedLangs = <?= json_encode($allowed_langs) ?>;
     window.worldeSampleAnswer = "<?= i18n('worldeSampleAnswer') ?>";
     window.errorMessages = {
       jsonIsNotAnArray:      "<?= i18n('errorMessagesJsonIsNotAnArray')      ?>",
