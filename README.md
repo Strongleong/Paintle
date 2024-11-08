@@ -9,7 +9,9 @@
 
 This tool allowes you to paint how your worlde solution you want to look.
 
-![Paintlie screenshot](./src/img/paintle.png)
+<p align=center>
+  <img src="./src/img/paintle.png">
+</p>
 
 ## Local devlopment
 

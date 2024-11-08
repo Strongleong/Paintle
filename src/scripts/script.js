@@ -258,6 +258,7 @@ async function loadWordlistFromFile(file) {
 
   if (file.type === 'application/json') {
     try {
+      console.log(words)
       wordsArr = JSON.parse(words);
       if (!Array.isArray(words)) {
         dom.wordlistError.innerText = errorMessages.jsonIsNotAnArray;
@@ -355,22 +356,31 @@ function main() {
   });
 
   listen(dom.langSelect, 'change', async () => {
+    let do_fetch = true;
+
     if (state.wordlists[dom.langSelect.value].length > 0) {
       state.current_wordlist = dom.langSelect.value;
-      return
+      do_fetch = false;
     }
 
+    const solution = cache_get(`solution.${state.current_wordlist}`);
+    dom.solutionInput.value = solution ?? '';
+
     if (dom.langSelect.value !== 'custom') {
-      await fetch_wordlist(dom.langSelect.value);
       dom.wordlistInputBlock.classList.add('nodisplay');
+
+      if (do_fetch) {
+        await fetch_wordlist(dom.langSelect.value);
+      }
     } else {
       dom.wordlistInputBlock.classList.remove('nodisplay');
-      // TODO: cache worlde solution
 
-      const files = dom.wordlistInput.files;
-      const file = files ? files[0] : null;
-      if (!file) return;
-      await loadWordlistFromFile(file);
+      if (do_fetch) {
+        const files = dom.wordlistInput.files;
+        const file = files ? files[0] : null;
+        if (!file) return;
+        await loadWordlistFromFile(file);
+      }
     }
   });
 
